@@ -56,6 +56,25 @@
         /* ── APP CONTAINER ── */
         .app-container { max-width: 900px; margin: 0 auto; }
 
+        /* ── BACK HOME ── */
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-family: 'SF Mono', 'Consolas', monospace;
+            font-size: 11px;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1.5px solid var(--border);
+            background: var(--surface);
+            transition: border-color 0.2s, color 0.2s;
+            margin-bottom: 12px;
+        }
+        .back-home:hover { border-color: var(--accent); color: var(--accent); }
+
         /* ── HEADER ── */
         .app-header {
             text-align: center;
@@ -663,6 +682,8 @@
 <body>
 
     <div class="app-container">
+
+        <a class="back-home" href="https://jmacot.github.io/" title="Volver al inicio">← Inicio</a>
 
         <!-- Header -->
         <div class="app-header">
