@@ -1,61 +1,97 @@
 # 🦵 Planificador CPAK
 
-**Herramienta web interactiva para la clasificación CPAK y planificación de alineación coronal en artroplastia total de rodilla.**
+Herramienta web interactiva para la clasificacion CPAK (Coronal Plane Alignment of the Knee) y planificacion de alineacion coronal en artroplastia total de rodilla.
+
+![HTML5](https://img.shields.io/badge/HTML5-single--file-E34F26?logo=html5&logoColor=white)
+![Fenotipos](https://img.shields.io/badge/fenotipos-9-1a3a5c)
+![Sin dependencias](https://img.shields.io/badge/dependencias-ninguna-grey)
 
 ---
 
-## 🔗 Acceso directo
+## Acceso directo
 
-👉 **[https://jmacot.github.io/CPAK/](https://jmacot.github.io/CPAK/)**
+[Abrir la aplicacion](https://jmacot.github.io/CPAK/)
 
-No requiere instalación. Funciona directamente en el navegador, incluyendo desde el móvil o tablet.
-
----
-
-## ¿Qué es el CPAK?
-
-El sistema **CPAK** (*Coronal Plane Alignment of the Knee*) es una clasificación de la alineación constitucional de la rodilla basada en el trabajo de MacDessi et al. (2021). Define 9 fenotipos según dos parámetros:
-
-- **aHKA** (*Arithmetic Hip-Knee-Ankle angle*): estima la alineación constitucional pre-artrósica a partir de la geometría ósea (LDFA y MPTA).
-- **JLO** (*Joint Line Obliquity*): orientación de la interlínea articular.
-
-Esta clasificación permite **individualizar el objetivo de alineación** en la artroplastia total de rodilla, abandonando el paradigma de la alineación neutra mecánica universal.
+No requiere instalacion. Funciona en cualquier navegador, incluyendo movil y tablet.
 
 ---
 
-## ¿Qué hace esta herramienta?
+## Que es el CPAK?
 
-- Calcula automáticamente el **aHKA** y el **JLO** a partir de LDFA y MPTA
-- Clasifica al paciente en uno de los **9 fenotipos CPAK**
-- Calcula el **JLCA** (*Joint Line Convergence Angle*) si se introduce el mHKA, estimando el grado de desgaste articular adquirido
-- Muestra la **matriz visual de fenotipos** con el tipo del paciente resaltado
-- Proporciona una descripción clínica de cada fenotipo y orientación quirúrgica
-- Compatible con **iOS y Android** como aplicación web
+El sistema **CPAK** es una clasificacion de la alineacion constitucional de la rodilla basada en MacDessi et al. (2021). Define **9 fenotipos** segun dos parametros:
 
----
-
-## Parámetros de entrada
-
-| Parámetro | Descripción |
+| Parametro | Descripcion |
 |-----------|-------------|
-| **LDFA** | Lateral Distal Femoral Angle |
-| **MPTA** | Medial Proximal Tibial Angle |
-| **mHKA** | Mechanical Hip-Knee-Ankle angle (opcional, para calcular JLCA) |
+| **aHKA** | Arithmetic Hip-Knee-Ankle angle — estima la alineacion constitucional pre-artrosica |
+| **JLO** | Joint Line Obliquity — orientacion de la interlinea articular |
+| **JLCA** | Joint Line Convergence Angle — estimacion del desgaste articular adquirido |
+
+Esta clasificacion permite **individualizar el objetivo de alineacion** en la artroplastia total de rodilla.
 
 ---
 
-## Uso
+## Funcionalidades
 
-1. Introduce los valores radiológicos de LDFA y MPTA
-2. La herramienta calcula automáticamente el fenotipo CPAK
-3. Opcionalmente, introduce el mHKA para analizar el desgaste articular (JLCA)
-4. Consulta la descripción clínica y la orientación para la planificación quirúrgica
+- **Calculo automatico** de aHKA y JLO a partir de LDFA y MPTA
+- **Clasificacion en 9 fenotipos CPAK** con descripcion clinica
+- **Matriz visual 3x3** con el fenotipo del paciente resaltado y representacion SVG de piernas
+- **Analisis de desgaste articular**: calcula JLCA a partir del mHKA, con indicadores visuales de severidad
+- **Barras de prevalencia**: porcentaje de cada fenotipo en poblacion sana vs artrosica
+- **Informacion clinica detallada**: estrategia quirurgica, diferencias por sexo, riesgo
+- **Formulas matematicas** visibles para verificacion
+- **Responsive**: adaptado para uso en escritorio, tablet y movil
 
 ---
 
-## Tecnología
+## Parametros de entrada
 
-Aplicación de archivo único (`index.html`) sin dependencias externas ni servidor. Todo el cálculo se realiza localmente en el navegador del usuario.
+| Parametro | Descripcion | Requerido |
+|-----------|-------------|-----------|
+| **LDFA** | Lateral Distal Femoral Angle | Si |
+| **MPTA** | Medial Proximal Tibial Angle | Si |
+| **mHKA** | Mechanical Hip-Knee-Ankle angle | Opcional (para JLCA) |
+
+---
+
+## Los 9 fenotipos CPAK
+
+|  | Apex Distal (JLO < 177°) | Neutral (177-183°) | Apex Proximal (JLO > 183°) |
+|--|---------------------------|---------------------|----------------------------|
+| **Varo (aHKA < -2°)** | Tipo I | Tipo II | Tipo III |
+| **Neutro (-2° a 2°)** | Tipo IV | Tipo V | Tipo VI |
+| **Valgo (aHKA > 2°)** | Tipo VII | Tipo VIII | Tipo IX |
+
+---
+
+## Como usar
+
+1. Introduce los valores radiologicos de **LDFA** y **MPTA**
+2. La herramienta calcula automaticamente el fenotipo CPAK
+3. Consulta la **matriz visual** y la **descripcion clinica**
+4. Opcionalmente, introduce el **mHKA** para analizar el desgaste articular (JLCA)
+5. Revisa la **estrategia quirurgica** recomendada para el fenotipo
+
+---
+
+## Estructura del proyecto
+
+```
+CPAK/
+├── index.html    ← aplicacion completa (archivo unico)
+├── icon.svg      ← icono de la app
+├── LICENSE       ← MIT
+└── README.md     ← este archivo
+```
+
+---
+
+## Tecnologia
+
+- **HTML5 + CSS3 + JavaScript vanilla** en archivo unico
+- Tipografia: [Inter](https://fonts.google.com/specimen/Inter) (Google Fonts)
+- Visualizaciones SVG generadas dinamicamente
+- Sin frameworks, sin build tools, sin backend
+- Compatible con Chrome, Firefox, Safari, Edge
 
 ---
 
@@ -66,6 +102,6 @@ Aplicación de archivo único (`index.html`) sin dependencias externas ni servid
 
 ---
 
-## Autor
+## Licencia
 
-**Javier Martín** — Cirujano Ortopédico, Unidad de Rodilla
+MIT — Uso interno hospitalario.
