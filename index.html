@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-title" content="CPAK Planner">
     <meta name="theme-color" content="#1a3a5c">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:wght@600;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -93,8 +93,9 @@
             margin-bottom: 28px;
         }
         .app-header h1 {
+            font-family: 'Lora', serif;
             color: var(--accent);
-            font-size: 22px;
+            font-size: clamp(1.3rem, 3vw, 1.7rem);
             font-weight: 700;
             margin-bottom: 4px;
         }
@@ -106,7 +107,8 @@
         /* ── CARDS ── */
         .card {
             background: var(--surface);
-            border-radius: 10px;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
             box-shadow: var(--shadow);
             padding: 24px;
             margin-bottom: 20px;
@@ -203,7 +205,7 @@
         .input-group input {
             width: 100%;
             border: 1.5px solid var(--border);
-            border-radius: 6px;
+            border-radius: 8px;
             padding: 10px 12px;
             font-size: 16px;
             font-family: 'Inter', Arial, sans-serif;
@@ -216,7 +218,7 @@
         .input-group input:focus {
             outline: none;
             border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(26,58,92,0.08);
+            box-shadow: 0 0 0 3px rgba(26,58,92,0.10);
         }
         .input-group input::placeholder {
             color: #bbb;
@@ -235,7 +237,7 @@
             margin-top: 10px;
             background: none;
             border: 1.5px dashed var(--border);
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 13px;
             font-weight: 600;
             color: var(--text-muted);
@@ -689,6 +691,23 @@
             color: var(--text-muted);
             line-height: 1.6;
         }
+
+        .app-footer { text-align: center; flex-shrink: 0; padding: 8px 0; }
+        .app-footer span { font-size: 0.7rem; color: var(--text-light); letter-spacing: 0.03em; }
+
+        .toast-banner {
+            position: fixed; bottom: 24px; left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: #7c3aed; color: white;
+            padding: 12px 28px; border-radius: 10px;
+            font-size: 0.95rem; font-weight: 600;
+            font-family: 'Inter', Arial, sans-serif;
+            box-shadow: 0 8px 32px rgba(124,58,237,0.30);
+            z-index: 9999; opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s;
+            pointer-events: none; display: flex; align-items: center; gap: 8px;
+        }
+        .toast-banner.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     </style>
 </head>
 <body>
@@ -966,9 +985,22 @@
             </div>
         </div>
 
+        <div class="app-footer"><span>COT — CPAK Planner v1.0</span></div>
+        <div id="toast" class="toast-banner"></div>
     </div>
 
     <script>
+        // ─────────────────────────────────────────────
+        //  TOAST
+        // ─────────────────────────────────────────────
+        function mostrarToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(t._timer);
+            t._timer = setTimeout(() => t.classList.remove('show'), 2200);
+        }
+
         // Clinical Data for each CPAK type
         const clinicalData = {
             'I': {
