@@ -88,7 +88,7 @@ CPAK/
 ## Tecnologia
 
 - **HTML5 + CSS3 + JavaScript vanilla** en archivo unico
-- Tipografia: [Inter](https://fonts.google.com/specimen/Inter) (Google Fonts)
+- Tipografias: [Inter](https://fonts.google.com/specimen/Inter) y [Lora](https://fonts.google.com/specimen/Lora) (Google Fonts)
 - Visualizaciones SVG generadas dinamicamente
 - Sin frameworks, sin build tools, sin backend
 - Compatible con Chrome, Firefox, Safari, Edge
