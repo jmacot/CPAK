@@ -81,7 +81,7 @@ Esta clasificacion permite **individualizar el objetivo de alineacion** en la ar
 CPAK/
 ├── index.html    ← aplicacion completa (archivo unico)
 ├── icon.svg      ← icono de la app
-├── LICENSE       ← MIT
+├── LICENSE       ← All Rights Reserved
 └── README.md     ← este archivo
 ```
 
@@ -106,4 +106,4 @@ CPAK/
 
 ## Licencia
 
-MIT — Uso interno hospitalario.
+All Rights Reserved — Uso interno hospitalario.
