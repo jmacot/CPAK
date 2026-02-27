@@ -8,7 +8,9 @@ Herramienta web interactiva para la clasificacion CPAK (Coronal Plane Alignment 
 
 ---
 
-## Acceso directo
+## Acceso
+
+> Acceso protegido — requiere autenticacion previa desde el [portal principal](https://jmacot.github.io/).
 
 [Abrir la aplicacion](https://jmacot.github.io/CPAK/)
 
