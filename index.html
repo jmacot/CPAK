@@ -709,6 +709,63 @@
             pointer-events: none; display: flex; align-items: center; gap: 8px;
         }
         .toast-banner.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* ── THEME TOGGLE ── */
+        .app-header { position: relative; }
+        .theme-toggle {
+            position: absolute; top: 0; right: 0;
+            background: var(--surface2); border: 1.5px solid var(--border);
+            border-radius: 50%; width: 38px; height: 38px; font-size: 1.2rem;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            box-shadow: var(--shadow-sm); transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .theme-toggle:hover { border-color: var(--accent); box-shadow: var(--shadow); }
+
+        /* ── DARK MODE ── */
+        [data-theme="dark"] {
+            --bg: #111827;
+            --surface: #1f2937;
+            --surface2: #283244;
+            --border: #374151;
+            --border-light: #4b5563;
+            --accent: #93c5fd;
+            --accent-light: #1e3a5f;
+            --accent-hover: #bae0ff;
+            --text: #f1f5f9;
+            --text-muted: #a8b8cc;
+            --text-light: #64748b;
+            --green: #4ade80;
+            --green-light: #14352a;
+            --amber: #fbbf24;
+            --amber-light: #3b2a10;
+            --red: #f87171;
+            --red-light: #3b1010;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.15);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.2);
+            --shadow-hover: 0 20px 25px -5px rgb(0 0 0 / 0.3);
+        }
+        [data-theme="dark"] .input-group input { background: var(--surface); }
+        [data-theme="dark"] .matrix-cell { background: var(--surface); }
+        [data-theme="dark"] .info-row.blue { background: #172554; border-color: #1e3a5f; }
+        [data-theme="dark"] .info-row.blue .info-icon { background: #1e3a5f; color: #93c5fd; }
+        [data-theme="dark"] .info-row.blue .info-label { color: #93c5fd; }
+        [data-theme="dark"] .info-row.rose { background: #3b1010; border-color: #5c1a1a; }
+        [data-theme="dark"] .info-row.rose .info-icon { background: #5c1a1a; color: #f87171; }
+        [data-theme="dark"] .info-row.rose .info-label { color: #f87171; }
+        [data-theme="dark"] .info-row.green { background: #14352a; border-color: #1a5c3a; }
+        [data-theme="dark"] .info-row.green .info-icon { background: #1a5c3a; color: #4ade80; }
+        [data-theme="dark"] .info-row.green .info-label { color: #4ade80; }
+        [data-theme="dark"] .wear-info-box.blue { background: #172554; border-color: #1e3a5f; }
+        [data-theme="dark"] .wear-info-box.blue .wib-title { color: #93c5fd; }
+        [data-theme="dark"] .wear-info-box.amber { background: #3b2a10; border-color: #5c4a1a; }
+        [data-theme="dark"] .wear-info-box.amber .wib-title { color: #fbbf24; }
+        [data-theme="dark"] .wear-info-box.purple { background: #2e1065; border-color: #4c1d95; }
+        [data-theme="dark"] .wear-info-box.purple .wib-title { color: #c084fc; }
+        [data-theme="dark"] .footer-warning { background: #3b2a10; border-color: #5c4a1a; }
+        [data-theme="dark"] .formulas-card { background: #1e3a5f; }
+        [data-theme="dark"] .wear-bar-track {
+            background: linear-gradient(to right, #1e3a5f, var(--border-light), #5c1a1a);
+        }
     </style>
 </head>
 <body>
@@ -721,6 +778,7 @@
         <div class="app-header">
             <h1>Planificador CPAK</h1>
             <p>Clasificación de la Alineación Coronal de la Rodilla</p>
+            <button class="theme-toggle" id="btn-theme" title="Cambiar tema"></button>
         </div>
 
         <!-- Results Bar -->
@@ -1412,6 +1470,57 @@
         // Initialize
         initializeMatrix();
         calculateAndUpdate();
+
+        // ─────────────────────────────────────────────
+        //  DARK MODE
+        // ─────────────────────────────────────────────
+        const btnTheme = document.getElementById('btn-theme');
+
+        function applyTheme(dark) {
+            if (dark) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                btnTheme.textContent = '☀️';
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                btnTheme.textContent = '🌙';
+            }
+        }
+
+        function getAutoTheme() {
+            const hour = new Date().getHours();
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            return (hour >= 21 || hour < 7 || prefersDark) ? 'dark' : 'light';
+        }
+
+        function initTheme() {
+            const saved = localStorage.getItem('theme');
+            const savedDate = localStorage.getItem('theme-date');
+            const today = new Date().toDateString();
+            if (saved && savedDate === today) {
+                applyTheme(saved === 'dark');
+            } else {
+                localStorage.removeItem('theme');
+                localStorage.removeItem('theme-date');
+                applyTheme(getAutoTheme() === 'dark');
+            }
+        }
+
+        btnTheme.addEventListener('click', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            applyTheme(!isDark);
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+            localStorage.setItem('theme-date', new Date().toDateString());
+        });
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+            const saved = localStorage.getItem('theme');
+            const savedDate = localStorage.getItem('theme-date');
+            if (!saved || savedDate !== new Date().toDateString()) {
+                applyTheme(getAutoTheme() === 'dark');
+            }
+        });
+
+        initTheme();
     </script>
 
 </body>
