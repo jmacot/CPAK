@@ -1,6 +1,6 @@
 # 🦵 Planificador CPAK
 
-Herramienta web interactiva para la clasificacion CPAK (Coronal Plane Alignment of the Knee) y planificacion de alineacion coronal en artroplastia total de rodilla.
+Planifica la alineacion coronal en protesis total de rodilla. Introduce las medidas radiologicas y obtén la clasificacion CPAK con el fenotipo del paciente.
 
 ![HTML5](https://img.shields.io/badge/HTML5-single--file-E34F26?logo=html5&logoColor=white)
 ![Fenotipos](https://img.shields.io/badge/fenotipos-9-1a3a5c)
