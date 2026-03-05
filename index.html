@@ -1498,6 +1498,16 @@
         initializeMatrix();
         calculateAndUpdate();
 
+        // Load from URL params (e.g. ?ldfa=94&mpta=85&mhka=173)
+        (function() {
+            const p = new URLSearchParams(location.search);
+            let changed = false;
+            if (p.has('ldfa')) { document.getElementById('input-ldfa').value = p.get('ldfa'); changed = true; }
+            if (p.has('mpta')) { document.getElementById('input-mpta').value = p.get('mpta'); changed = true; }
+            if (p.has('mhka')) { document.getElementById('input-mhka').value = p.get('mhka'); changed = true; }
+            if (changed) calculateAndUpdate();
+        })();
+
         // ─────────────────────────────────────────────
         //  DARK MODE
         // ─────────────────────────────────────────────
