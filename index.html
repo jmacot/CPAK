@@ -141,6 +141,25 @@
             from { opacity: 0; transform: translateY(16px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes slideReveal {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes focusPulse {
+            0% { box-shadow: 0 0 0 0 rgba(26,58,92,0.25); }
+            70% { box-shadow: 0 0 0 6px rgba(26,58,92,0); }
+            100% { box-shadow: 0 0 0 0 rgba(26,58,92,0); }
+        }
+        @keyframes focusPulseDark {
+            0% { box-shadow: 0 0 0 0 rgba(147,197,253,0.3); }
+            70% { box-shadow: 0 0 0 6px rgba(147,197,253,0); }
+            100% { box-shadow: 0 0 0 0 rgba(147,197,253,0); }
+        }
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.6); }
+            60% { transform: scale(1.08); }
+            to { opacity: 1; transform: scale(1); }
+        }
 
         /* ── CARDS ── */
         .card {
@@ -187,7 +206,13 @@
             box-shadow: var(--shadow);
             text-align: center;
             border: 1px solid var(--border-light);
+            animation: popIn 0.35s ease-out both;
         }
+        .result-box:nth-child(1) { animation-delay: 0s; }
+        .result-box:nth-child(2) { animation-delay: 0.05s; }
+        .result-box:nth-child(3) { animation-delay: 0.1s; }
+        .result-box:nth-child(4) { animation-delay: 0.15s; }
+        .result-box:nth-child(5) { animation-delay: 0.2s; }
         .result-box .result-label {
             font-size: 10px;
             font-weight: 700;
@@ -257,6 +282,10 @@
             outline: none;
             border-color: var(--accent);
             box-shadow: 0 0 0 3px rgba(26,58,92,0.10);
+            animation: focusPulse 0.6s ease-out;
+        }
+        [data-theme="dark"] .input-group input:focus {
+            animation: focusPulseDark 0.6s ease-out;
         }
         .input-group input::placeholder {
             color: #bbb;
@@ -504,7 +533,7 @@
 
         /* ── WEAR ANALYSIS ── */
         .wear-panel { display: none; }
-        .wear-panel.visible { display: block; }
+        .wear-panel.visible { display: block; animation: slideReveal 0.5s ease-out; }
 
         .wear-header {
             display: flex;
