@@ -10,8 +10,17 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="CPAK Planner">
-    <meta name="theme-color" content="#1a3a5c">
-
+    <meta name="theme-color" id="meta-theme" content="#1a3a5c">
+    <meta name="description" content="Planificador CPAK — Clasifica la alineacion coronal de rodilla segun CPAK y calcula el target quirurgico optimo." />
+    <!-- Open Graph -->
+    <meta property="og:title" content="CPAK Planner · COT" />
+    <meta property="og:description" content="Planificador CPAK — Clasifica la alineacion coronal de rodilla segun CPAK y calcula el target quirurgico optimo." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://jmacot.github.io/CPAK/" />
+    <meta property="og:image" content="https://jmacot.github.io/CPAK/icon.svg" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:wght@600;700&display=swap" rel="stylesheet">
 
     <style>
@@ -793,6 +802,12 @@
         [data-theme="dark"] .wear-bar-track {
             background: linear-gradient(to right, #1e3a5f, var(--border-light), #5c1a1a);
         }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -805,7 +820,7 @@
         <div class="app-header">
             <h1>Planificador CPAK</h1>
             <p>Clasificación de la Alineación Coronal de la Rodilla</p>
-            <button class="theme-toggle" id="btn-theme" title="Cambiar tema"></button>
+            <button class="theme-toggle" id="btn-theme" title="Cambiar tema" aria-label="Cambiar a modo oscuro"></button>
         </div>
 
         <!-- Results Bar -->
@@ -1514,12 +1529,17 @@
         const btnTheme = document.getElementById('btn-theme');
 
         function applyTheme(dark) {
+            var metaTheme = document.getElementById('meta-theme');
             if (dark) {
                 document.documentElement.setAttribute('data-theme', 'dark');
                 btnTheme.textContent = '☀️';
+                btnTheme.setAttribute('aria-label', 'Cambiar a modo claro');
+                if (metaTheme) metaTheme.setAttribute('content', '#0a1628');
             } else {
                 document.documentElement.removeAttribute('data-theme');
                 btnTheme.textContent = '🌙';
+                btnTheme.setAttribute('aria-label', 'Cambiar a modo oscuro');
+                if (metaTheme) metaTheme.setAttribute('content', '#1a3a5c');
             }
         }
 
