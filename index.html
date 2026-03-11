@@ -1177,6 +1177,10 @@
             }
         }
 
+        /* Accesibilidad — focus visible para navegacion por teclado */
+        :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+        input:focus-visible, select:focus-visible, textarea:focus-visible { outline: none; }
+
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
@@ -2029,48 +2033,25 @@
                 .attr('stroke', isDark ? '#1f2937' : '#ffffff')
                 .attr('stroke-width', 1.5);
 
-            // Equation text: mHKA - aHKA = JLCA
+            // JLCA value — centered above gauge
             var eqY = 24;
-            var mhkaStr = (mhkaDeviation > 0 ? '+' : '') + mhkaDeviation.toFixed(1) + '\u00B0';
-            var ahkaStr = (aHKA > 0 ? '+' : '') + aHKA.toFixed(1) + '\u00B0';
             var jlcaStr = (jlca > 0 ? '+' : '') + jlca.toFixed(1) + '\u00B0';
 
-            var eqParts = [
-                { label: 'mHKA', value: mhkaStr, color: boldColor },
-                { op: '\u2212' },
-                { label: 'aHKA', value: ahkaStr, color: boldColor },
-                { op: '=' },
-                { label: 'JLCA', value: jlcaStr, color: severityColor }
-            ];
+            g.append('text')
+                .attr('x', gaugeW / 2).attr('y', eqY - 12)
+                .attr('text-anchor', 'middle')
+                .attr('font-size', 9).attr('font-weight', 700)
+                .attr('fill', textColor)
+                .attr('font-family', 'Inter, sans-serif')
+                .text('JLCA');
+            g.append('text')
+                .attr('x', gaugeW / 2).attr('y', eqY + 6)
+                .attr('text-anchor', 'middle')
+                .attr('font-size', 18).attr('font-weight', 700)
+                .attr('fill', severityColor)
+                .attr('font-family', 'Inter, sans-serif')
+                .text(jlcaStr);
 
-            var cx = gaugeW / 2 - 100;
-            eqParts.forEach(function(p) {
-                if (p.op) {
-                    g.append('text')
-                        .attr('x', cx + 6).attr('y', eqY + 2)
-                        .attr('text-anchor', 'middle')
-                        .attr('font-size', 14).attr('fill', textColor)
-                        .attr('font-family', 'Inter, sans-serif')
-                        .text(p.op);
-                    cx += 20;
-                } else {
-                    g.append('text')
-                        .attr('x', cx + 24).attr('y', eqY - 12)
-                        .attr('text-anchor', 'middle')
-                        .attr('font-size', 9).attr('font-weight', 700)
-                        .attr('fill', textColor)
-                        .attr('font-family', 'Inter, sans-serif')
-                        .text(p.label);
-                    g.append('text')
-                        .attr('x', cx + 24).attr('y', eqY + 4)
-                        .attr('text-anchor', 'middle')
-                        .attr('font-size', 16).attr('font-weight', 700)
-                        .attr('fill', p.color)
-                        .attr('font-family', 'Inter, sans-serif')
-                        .text(p.value);
-                    cx += 56;
-                }
-            });
         }
 
         function updateWearAnalysis(mhkaInput, aHKA) {
