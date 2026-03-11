@@ -575,49 +575,64 @@
         }
 
         .wear-grid {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
-        @media (max-width: 768px) {
-            .wear-grid { grid-template-columns: 1fr; }
+
+        .wear-gauge-wrap {
+            width: 100%;
+            overflow: visible;
+        }
+        .wear-gauge-wrap svg {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+            min-height: 80px; /* Windows Chromium: height:auto=0 inside flex */
         }
 
         .wear-calc {
+            display: flex;
+            align-items: center;
+            gap: 20px;
             background: var(--surface2);
             border: 1px solid var(--border-light);
-            border-radius: 8px;
-            padding: 14px;
+            border-radius: 10px;
+            padding: 12px 18px;
         }
         .wear-calc-row {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 10px;
+            flex-shrink: 0;
         }
         .wear-calc-item { text-align: center; }
         .wear-calc-item .wc-label {
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 700;
             color: var(--text-light);
             text-transform: uppercase;
         }
         .wear-calc-item .wc-value {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
             color: var(--text);
         }
-        .wear-calc-item .wc-value.jlca { color: var(--amber); font-size: 20px; }
+        .wear-calc-item .wc-value.jlca { color: var(--amber); font-size: 17px; }
         .wear-calc-op {
-            font-size: 18px;
+            font-size: 16px;
             color: var(--border);
         }
 
+        .wear-bar-wrap {
+            flex: 1;
+            min-width: 100px;
+        }
         .wear-bar-track {
-            height: 14px;
+            height: 12px;
             background: linear-gradient(to right, #bfdbfe, var(--border-light), #fecaca);
-            border-radius: 7px;
+            border-radius: 6px;
             position: relative;
             overflow: hidden;
         }
@@ -641,17 +656,18 @@
         .wear-bar-labels {
             display: flex;
             justify-content: space-between;
-            font-size: 10px;
+            font-size: 9px;
             color: var(--text-light);
-            margin-top: 4px;
+            margin-top: 2px;
         }
 
         .wear-info-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
         }
         @media (max-width: 600px) {
+            .wear-calc { flex-direction: column; }
             .wear-info-grid { grid-template-columns: 1fr; }
         }
         .wear-info-box {
@@ -659,19 +675,23 @@
             border-radius: 8px;
             border: 1px solid;
             display: none;
+            /* Flex interno para alinear contenido uniformemente */
+            flex-direction: column;
+            justify-content: flex-start;
         }
-        .wear-info-box.visible { display: block; }
+        .wear-info-box.visible { display: flex; }
         .wear-info-box .wib-title {
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 4px;
         }
         .wear-info-box .wib-text {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-muted);
-            line-height: 1.6;
+            line-height: 1.5;
+            flex: 1;
         }
         .wear-info-box.neutral { background: var(--surface2); border-color: var(--border-light); }
         .wear-info-box.neutral .wib-title { color: var(--text-muted); }
@@ -832,6 +852,331 @@
         [data-theme="dark"] .wear-bar-track {
             background: linear-gradient(to right, #1e3a5f, var(--border-light), #5c1a1a);
         }
+
+        /* ── EVIDENCE ALERT (Franceschetti 2024) ── */
+        .evidence-alert {
+            padding: 12px 14px;
+            border-radius: 8px;
+            border-left: 3px solid;
+            margin-top: 14px;
+            animation: slideReveal 0.4s ease-out;
+        }
+        .evidence-alert .ea-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+        .evidence-alert .ea-icon { font-size: 14px; }
+        .evidence-alert .ea-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .evidence-alert .ea-text {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        .evidence-alert .ea-ref {
+            font-size: 10px;
+            color: var(--text-light);
+            margin-top: 6px;
+            font-style: italic;
+        }
+        .evidence-alert.warn {
+            background: #fffbeb;
+            border-color: var(--amber);
+        }
+        .evidence-alert.warn .ea-title { color: var(--amber); }
+        .evidence-alert.ok {
+            background: var(--green-light);
+            border-color: var(--green);
+        }
+        .evidence-alert.ok .ea-title { color: var(--green); }
+        [data-theme="dark"] .evidence-alert.warn { background: #3b2a10; }
+        [data-theme="dark"] .evidence-alert.ok { background: #14352a; }
+
+        /* ── TECHNIQUE BADGE ── */
+        .technique-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 6px;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+        .technique-badge.warn {
+            background: rgba(192,84,10,0.12);
+            color: var(--amber);
+            border: 1px solid rgba(192,84,10,0.25);
+        }
+        .technique-badge.ok {
+            background: rgba(22,163,74,0.10);
+            color: var(--green);
+            border: 1px solid rgba(22,163,74,0.20);
+        }
+        [data-theme="dark"] .technique-badge.warn {
+            background: rgba(251,191,36,0.12);
+            border-color: rgba(251,191,36,0.25);
+        }
+        [data-theme="dark"] .technique-badge.ok {
+            background: rgba(74,222,128,0.12);
+            border-color: rgba(74,222,128,0.20);
+        }
+
+        /* ── DISTANCE TO TYPE V ── */
+        .distance-v-panel {
+            background: var(--surface2);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 14px;
+        }
+        .dv-title {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+        .dv-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+        }
+        .dv-row:last-of-type { margin-bottom: 0; }
+        .dv-label {
+            width: 38px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+        .dv-track {
+            flex: 1;
+            height: 6px;
+            background: var(--border-light);
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+        }
+        .dv-bar {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.4s ease, background 0.3s ease;
+            min-width: 2px;
+        }
+        .dv-bar.ok { background: var(--green); }
+        .dv-bar.moderate { background: var(--amber); }
+        .dv-bar.high { background: var(--red); }
+        .dv-value {
+            width: 36px;
+            text-align: right;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .dv-note {
+            font-size: 10px;
+            color: var(--text-light);
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+
+        /* ── FRANCESCHETTI PREVALENCE BAR ── */
+        .prev-row .prev-bar.franceschetti { background: #7c3aed; }
+        [data-theme="dark"] .prev-row .prev-bar.franceschetti { background: #a78bfa; }
+        .epi-context {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        /* ── TELEMETRÍA (evolutivo) ── */
+        /* ── TELEMETRÍA ── */
+        .telemetria-block {
+            padding: 14px 16px;
+            background: var(--surface);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-light);
+            margin-top: 10px;
+            box-shadow: var(--shadow-sm);
+        }
+        .telemetria-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+        .telemetria-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-light);
+        }
+        .telemetria-pre {
+            font-family: 'SF Mono', 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 11px;
+            line-height: 1.7;
+            color: var(--text);
+            white-space: pre-wrap;
+            margin: 0;
+            padding: 10px 12px;
+            background: var(--surface2);
+            border-radius: 6px;
+        }
+        /* ── BTN-COPY ── */
+        .btn-copy {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-width: 1.5px;
+            border-style: solid;
+            background: transparent;
+        }
+        .btn-copy svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+        .btn-copy.blue { color: var(--accent); border-color: var(--accent); }
+        .btn-copy.blue:hover { background: var(--accent); color: white; }
+
+        /* ── GLOSARIO (toggle) ── */
+        .glossary-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent);
+            cursor: pointer;
+            padding: 6px 14px;
+            border-radius: 8px;
+            background: var(--accent-light);
+            border: none;
+            transition: all 0.2s;
+            margin-top: 10px;
+            font-family: 'Inter', Arial, sans-serif;
+        }
+        .glossary-toggle:hover { background: var(--accent); color: white; }
+        .glossary-toggle svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; transition: transform 0.3s; }
+        .glossary-toggle.open svg { transform: rotate(180deg); }
+        .glossary-content {
+            display: none;
+            padding: 14px;
+            background: var(--surface2);
+            border-radius: var(--radius-sm);
+            margin-top: 8px;
+            font-size: 12px;
+            line-height: 1.8;
+            color: var(--text-muted);
+        }
+        .glossary-content.visible { display: block; }
+        .glossary-content dt { font-weight: 700; color: var(--accent); display: inline; }
+        .glossary-content dd { display: inline; margin: 0; }
+        .glossary-content dd::after { content: ''; display: block; margin-bottom: 2px; }
+        .glossary-content .gval { font-weight: 600; color: var(--accent); }
+        [data-theme="dark"] .glossary-content { background: #283244; }
+
+        /* ── CLINICAL PANEL — FULL-WIDTH LAYOUT ── */
+        .clinical-full {
+            animation: fadeInUp 0.6s ease-out 0.15s both;
+        }
+        .clinical-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-light);
+            flex-wrap: wrap;
+        }
+        .cpak-title {
+            font-family: 'Lora', serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .cpak-subtitle {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+        .deformity-badge {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            padding: 3px 10px;
+            border-radius: 999px;
+            background: var(--accent-light);
+            color: var(--accent);
+            white-space: nowrap;
+        }
+        .clinical-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+        .clinical-col {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .clinical-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        .prev-section {
+            background: var(--surface2);
+            border-radius: 8px;
+            padding: 10px 12px;
+        }
+        .prev-section-title {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+        @media (max-width: 768px) {
+            .clinical-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .clinical-col:first-child {
+                grid-column: 1 / -1;
+            }
+        }
+        @media (max-width: 600px) {
+            .clinical-grid {
+                grid-template-columns: 1fr;
+            }
+            .clinical-col:first-child {
+                grid-column: auto;
+            }
+            .clinical-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
@@ -910,69 +1255,45 @@
                     <button class="btn-reset" onclick="resetInputs()">↺ Restablecer</button>
                 </div>
 
-                <!-- Clinical Interpretation -->
-                <div class="card" id="clinical-panel">
-                    <div class="section-title">Interpretación Clínica</div>
-
-                    <div class="cpak-type-box">
-                        <h3 id="cpak-title">CPAK Tipo II</h3>
-                        <span class="cpak-subtitle" id="cpak-subtitle">Alineación Neutra - JLO Distal</span>
+                <!-- Telemetría para evolutivo -->
+                <div class="telemetria-block" id="telemetria-block">
+                    <div class="telemetria-header">
+                        <span class="telemetria-title">Telemetría para evolutivo</span>
+                        <button class="btn-copy blue" onclick="copiarTelemetria()">
+                            <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                            Copiar
+                        </button>
                     </div>
-
-                    <div class="info-row blue">
-                        <div class="info-icon">⚡</div>
-                        <div>
-                            <span class="info-label">Origen de Deformidad</span>
-                            <span id="deformity-origin">Sin deformidad ósea significativa</span>
-                        </div>
-                    </div>
-
-                    <p class="clinical-desc" id="cpak-description">
-                        Alineación global neutra, pero con oblicuidad articular constitucional.
-                    </p>
-
-                    <!-- Prevalence -->
-                    <div class="prevalence-box">
-                        <div class="prev-title">Prevalencia</div>
-                        <div class="prev-row">
-                            <span class="prev-label">Sana</span>
-                            <div class="prev-track">
-                                <div class="prev-bar healthy" id="prev-healthy" style="width: 78%"></div>
-                            </div>
-                            <span class="prev-value" id="prev-healthy-text">39.2%</span>
-                        </div>
-                        <div class="prev-row">
-                            <span class="prev-label">Artrósica</span>
-                            <div class="prev-track">
-                                <div class="prev-bar arthritic" id="prev-arthritic" style="width: 64%"></div>
-                            </div>
-                            <span class="prev-value" id="prev-arthritic-text">32.2%</span>
-                        </div>
-                    </div>
-
-                    <div class="gender-tip" id="gender-tip">
-                        Fenotipo más frecuente en ambos sexos.
-                    </div>
-
-                    <hr class="clinical-divider">
-
-                    <!-- Risks and Strategies -->
-                    <div class="info-row rose">
-                        <div class="info-icon">⚠</div>
-                        <div>
-                            <span class="info-label">Riesgo con MA</span>
-                            <span id="risk-text">MA "aplana" la línea articular elevando el lado medial. Riesgo de inestabilidad en flexión media.</span>
-                        </div>
-                    </div>
-
-                    <div class="info-row green">
-                        <div class="info-icon">✓</div>
-                        <div>
-                            <span class="info-label">Estrategia Recomendada</span>
-                            <span id="strategy-text">rKA es superior para preservar la oblicuidad nativa y evitar la inestabilidad.</span>
-                        </div>
-                    </div>
+                    <pre class="telemetria-pre" id="telemetria-text">Telemetría:
+· mHKA: --
+· mLDFA: 87°
+· mMPTA: 87°
+· aHKA: 0.0° (Neutro)
+· CPAK: Tipo II</pre>
                 </div>
+
+                <!-- Glosario (toggle) -->
+                <button class="glossary-toggle" id="btn-glossary" onclick="toggleGlossary()">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    Glosario de siglas
+                </button>
+                <div class="glossary-content" id="glossary-content">
+                    <dl>
+                        <dt>MA</dt><dd> — Mechanical Alignment (Alineación Mecánica)</dd>
+                        <dt>KA</dt><dd> — Kinematic Alignment (Alineación Cinemática)</dd>
+                        <dt>rKA</dt><dd> — Restricted Kinematic Alignment (KA Restringida)</dd>
+                        <dt>FA</dt><dd> — Functional Alignment (Alineación Funcional)</dd>
+                        <dt>AA</dt><dd> — Anatomic Alignment (Alineación Anatómica)</dd>
+                        <dt>mHKA</dt><dd> — Mechanical Hip-Knee-Ankle angle. Eje mecánico del miembro inferior.</dd>
+                        <dt>aHKA</dt><dd> — Arithmetic HKA. Alineación constitucional estimada (MPTA − LDFA).</dd>
+                        <dt>mLDFA</dt><dd> — Mechanical Lateral Distal Femoral Angle. <span class="gval">Normal: 84-90°</span>.</dd>
+                        <dt>MPTA</dt><dd> — Medial Proximal Tibial Angle. <span class="gval">Normal: 84-90°</span>.</dd>
+                        <dt>JLO</dt><dd> — Joint Line Obliquity. Oblicuidad de la línea articular (MPTA + LDFA).</dd>
+                        <dt>JLCA</dt><dd> — Joint Line Convergence Angle. Desgaste articular (mHKA − aHKA).</dd>
+                        <dt>CPAK</dt><dd> — Coronal Plane Alignment of the Knee. Clasificación en 9 fenotipos.</dd>
+                    </dl>
+                </div>
+
             </div>
 
             <!-- Right Column -->
@@ -1017,69 +1338,6 @@
                     </div>
                 </div>
 
-                <!-- Bone Wear Analysis -->
-                <div class="card wear-panel" id="wear-analysis-panel">
-                    <div class="wear-header">
-                        <span class="wear-icon">⚠️</span>
-                        <h3>Análisis de Desgaste Óseo (JLCA)</h3>
-                        <div class="wear-severity">
-                            <div class="severity-dot" id="wear-severity-dot"></div>
-                            <span class="severity-text" id="wear-severity-title">Sin datos</span>
-                        </div>
-                    </div>
-
-                    <div class="wear-grid">
-                        <div class="wear-calc">
-                            <div class="wear-calc-row">
-                                <div class="wear-calc-item">
-                                    <div class="wc-label">mHKA</div>
-                                    <div class="wc-value" id="wear-mhka">--</div>
-                                </div>
-                                <span class="wear-calc-op">−</span>
-                                <div class="wear-calc-item">
-                                    <div class="wc-label">aHKA</div>
-                                    <div class="wc-value" id="wear-ahka">--</div>
-                                </div>
-                                <span class="wear-calc-op">=</span>
-                                <div class="wear-calc-item">
-                                    <div class="wc-label">JLCA</div>
-                                    <div class="wc-value jlca" id="wear-jlca">--</div>
-                                </div>
-                            </div>
-
-                            <div class="wear-bar-track">
-                                <div class="wear-bar-center"></div>
-                                <div class="wear-bar-indicator" id="wear-indicator"></div>
-                            </div>
-                            <div class="wear-bar-labels">
-                                <span>Medial</span>
-                                <span>Lateral</span>
-                            </div>
-                        </div>
-
-                        <div class="wear-info-grid">
-                            <div class="wear-info-box neutral visible" id="wear-interpretation">
-                                <div class="wib-title">Interpretación</div>
-                                <p class="wib-text" id="wear-interpretation-text">
-                                    Introduce mHKA para calcular el desgaste articular.
-                                </p>
-                            </div>
-                            <div class="wear-info-box blue" id="wear-compartment">
-                                <div class="wib-title">Compartimento Afectado</div>
-                                <p class="wib-text" id="wear-compartment-text"></p>
-                            </div>
-                            <div class="wear-info-box amber" id="wear-implications">
-                                <div class="wib-title">Implicaciones Quirúrgicas</div>
-                                <p class="wib-text" id="wear-implications-text"></p>
-                            </div>
-                            <div class="wear-info-box purple" id="wear-correction">
-                                <div class="wib-title">Corrección Esperada</div>
-                                <p class="wib-text" id="wear-correction-text"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Formulas Panel -->
                 <div class="formulas-card">
                     <div class="formulas-title">Fórmulas y Conceptos</div>
@@ -1105,6 +1363,159 @@
             </div>
         </div>
 
+        <!-- Bone Wear Analysis (full-width) -->
+        <div class="card clinical-full" id="wear-analysis-panel">
+            <div class="wear-header">
+                <span class="wear-icon">⚠️</span>
+                <h3>Análisis de Desgaste Óseo (JLCA)</h3>
+                <div class="wear-severity">
+                    <div class="severity-dot" id="wear-severity-dot"></div>
+                    <span class="severity-text" id="wear-severity-title">Sin datos</span>
+                </div>
+            </div>
+
+            <div class="wear-grid">
+                <!-- D3 Gauge Chart -->
+                <div id="wear-gauge" class="wear-gauge-wrap"></div>
+                <!-- CSS Fallback (shown if D3 unavailable) -->
+                <div id="wear-calc-fallback" class="wear-calc" style="display:none;">
+                    <div class="wear-calc-row">
+                        <div class="wear-calc-item">
+                            <div class="wc-label">mHKA</div>
+                            <div class="wc-value" id="wear-mhka-fb">--</div>
+                        </div>
+                        <span class="wear-calc-op">−</span>
+                        <div class="wear-calc-item">
+                            <div class="wc-label">aHKA</div>
+                            <div class="wc-value" id="wear-ahka-fb">--</div>
+                        </div>
+                        <span class="wear-calc-op">=</span>
+                        <div class="wear-calc-item">
+                            <div class="wc-label">JLCA</div>
+                            <div class="wc-value jlca" id="wear-jlca-fb">--</div>
+                        </div>
+                    </div>
+                    <div class="wear-bar-wrap">
+                        <div class="wear-bar-track">
+                            <div class="wear-bar-center"></div>
+                            <div class="wear-bar-indicator" id="wear-indicator-fb"></div>
+                        </div>
+                        <div class="wear-bar-labels">
+                            <span>Medial</span>
+                            <span>Lateral</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wear-info-grid">
+                    <div class="wear-info-box neutral visible" id="wear-interpretation">
+                        <div class="wib-title">Interpretación</div>
+                        <p class="wib-text" id="wear-interpretation-text">
+                            Introduce mHKA para calcular el desgaste articular.
+                        </p>
+                    </div>
+                    <div class="wear-info-box blue" id="wear-compartment">
+                        <div class="wib-title">Compartimento Afectado</div>
+                        <p class="wib-text" id="wear-compartment-text"></p>
+                    </div>
+                    <div class="wear-info-box amber" id="wear-implications">
+                        <div class="wib-title">Implicaciones Quirúrgicas</div>
+                        <p class="wib-text" id="wear-implications-text"></p>
+                    </div>
+                    <div class="wear-info-box purple" id="wear-correction">
+                        <div class="wib-title">Corrección Esperada</div>
+                        <p class="wib-text" id="wear-correction-text"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clinical Panel (full-width) -->
+        <div class="card clinical-full" id="clinical-panel">
+            <div class="clinical-header">
+                <div>
+                    <div class="cpak-title" id="cpak-title">CPAK Tipo II</div>
+                    <div class="cpak-subtitle" id="cpak-subtitle">Alineación Neutra - JLO Distal</div>
+                </div>
+                <div class="deformity-badge" id="deformity-origin">Sin deformidad ósea significativa</div>
+            </div>
+
+            <div class="clinical-grid">
+                <!-- Col 1: Description + Prevalence -->
+                <div class="clinical-col">
+                    <div class="clinical-desc" id="cpak-description">Alineación global neutra, pero con oblicuidad articular constitucional.</div>
+
+                    <div class="prev-section">
+                        <div class="prev-section-title">Prevalencia por cohorte</div>
+                        <div class="prev-row">
+                            <span class="prev-label">Sanos</span>
+                            <div class="prev-track"><div class="prev-bar healthy" id="prev-healthy" style="width: 78.4%"></div></div>
+                            <span class="prev-text" id="prev-healthy-text">39.2%</span>
+                        </div>
+                        <div class="prev-row">
+                            <span class="prev-label">Artrosis</span>
+                            <div class="prev-track"><div class="prev-bar arthritic" id="prev-arthritic" style="width: 64.4%"></div></div>
+                            <span class="prev-text" id="prev-arthritic-text">32.2%</span>
+                        </div>
+                        <div class="prev-row">
+                            <span class="prev-label">F-2024</span>
+                            <div class="prev-track"><div class="prev-bar franceschetti" id="prev-franceschetti" style="width: 45.6%"></div></div>
+                            <span class="prev-text" id="prev-franceschetti-text">22.8%</span>
+                        </div>
+                        <div class="epi-context" id="epi-context"></div>
+                    </div>
+
+                    <div class="gender-tip" id="gender-tip">Fenotipo más frecuente en ambos sexos.</div>
+                </div>
+
+                <!-- Col 2: Risk + Strategy + Technique -->
+                <div class="clinical-col">
+                    <div class="info-row rose">
+                        <div class="info-icon">⚡</div>
+                        <div>
+                            <div class="info-label">Riesgo con MA</div>
+                            <div class="info-text" id="risk-text">MA horizontaliza la línea articular elevando el lado medial. Riesgo documentado de INESTABILIDAD EN FLEXIÓN MEDIA.</div>
+                        </div>
+                    </div>
+                    <div class="info-row green">
+                        <div class="info-icon">🎯</div>
+                        <div>
+                            <div class="info-label">Estrategia Recomendada</div>
+                            <div class="info-text" id="strategy-text">Precaución con MA pura. rKA es superior para preservar la oblicuidad nativa y evitar la inestabilidad.</div>
+                            <div class="technique-badge ok" id="technique-badge">Evidencia → MA estándar</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Col 3: Distance to V + Evidence Alert -->
+                <div class="clinical-col">
+                    <div class="distance-v-panel" id="distance-v-panel">
+                        <div class="dv-title">Distancia al fenotipo MA-ideal (Tipo V)</div>
+                        <div class="dv-row">
+                            <span class="dv-label">aHKA</span>
+                            <div class="dv-track"><div class="dv-bar ok" id="dv-bar-ahka" style="width: 0%"></div></div>
+                            <span class="dv-value" id="dv-val-ahka">0.0°</span>
+                        </div>
+                        <div class="dv-row">
+                            <span class="dv-label">JLO</span>
+                            <div class="dv-track"><div class="dv-bar ok" id="dv-bar-jlo" style="width: 0%"></div></div>
+                            <span class="dv-value" id="dv-val-jlo">0°</span>
+                        </div>
+                        <div class="dv-note" id="dv-note">Solo el 12.8% de pacientes OA son Tipo V nativo.</div>
+                    </div>
+
+                    <div class="evidence-alert ok" id="evidence-alert">
+                        <div class="ea-header">
+                            <span class="ea-icon" id="ea-icon">✅</span>
+                            <span class="ea-title" id="ea-title">Fenotipo neutro</span>
+                        </div>
+                        <div class="ea-text" id="ea-text">Resultados predecibles con MA-TKA. Sin desventajas específicas de fenotipo.</div>
+                        <div class="ea-ref">Franceschetti et al., KSSTA 2024 (n=180)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Footer Warning -->
         <div class="footer-warning">
             <span class="fw-icon">⚠️</span>
@@ -1120,7 +1531,36 @@
         <div id="toast" class="toast-banner"></div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
     <script>
+    // CDN fallback chain — proxies corporativos pueden bloquear algunos CDNs
+    (function() {
+        if (typeof d3 !== 'undefined') return;
+        var cdns = [
+            'https://d3js.org/d3.v7.min.js',
+            'https://unpkg.com/d3@7/dist/d3.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js'
+        ];
+        var i = 0;
+        function tryNext() {
+            if (i >= cdns.length || typeof d3 !== 'undefined') return;
+            var s = document.createElement('script');
+            s.src = cdns[i++];
+            s.onload = function() { console.log('D3 loaded from fallback: ' + s.src); };
+            s.onerror = tryNext;
+            document.head.appendChild(s);
+        }
+        tryNext();
+    })();
+    </script>
+    <script>
+        // ─────────────────────────────────────────────
+        //  SVG URL HELPER (Windows file:// fix)
+        // ─────────────────────────────────────────────
+        function svgUrl(id) {
+            return 'url(' + window.location.href.split('#')[0] + '#' + id + ')';
+        }
+
         // ─────────────────────────────────────────────
         //  TOAST
         // ─────────────────────────────────────────────
@@ -1140,14 +1580,18 @@
                 risk: 'MA genera un eje neutro pero ELEVA la línea articular medialmente. Provoca tensión medial excesiva y riesgo de "Lift-off" del cóndilo lateral.',
                 strategy: 'Discordante con MA. Considerar Alineación Cinemática Restringida (rKA) o Funcional (FA) para preservar cierta oblicuidad.',
                 prevalence: { healthy: 26.4, arthritic: 19.4 },
+                franceschettiPrev: 23.9,
+                sexDistribution: 'Predominio en varones (31.5% vs 18.7% en mujeres)',
                 genderTip: 'Muy prevalente en HOMBRES (~35-38%). Menos común en mujeres.'
             },
             'II': {
                 title: 'Alineación Neutra - JLO Distal',
                 desc: 'Alineación global neutra, pero con oblicuidad articular constitucional.',
-                risk: 'MA "aplana" la línea articular elevando el lado medial. Riesgo documentado de INESTABILIDAD EN FLEXIÓN MEDIA.',
+                risk: 'MA horizontaliza la línea articular elevando el lado medial. Riesgo documentado de INESTABILIDAD EN FLEXIÓN MEDIA.',
                 strategy: 'Precaución con MA pura. rKA es superior para preservar la oblicuidad nativa y evitar la inestabilidad.',
                 prevalence: { healthy: 39.2, arthritic: 32.2 },
+                franceschettiPrev: 22.8,
+                sexDistribution: 'Predominio en mujeres (27.1% vs 16.4% en varones)',
                 genderTip: 'Fenotipo más frecuente en ambos sexos.'
             },
             'III': {
@@ -1156,6 +1600,8 @@
                 risk: 'MA corrige a neutro y distaliza el fémur lateral. Tensa el compartimento lateral y el RETINÁCULO PATELAR LATERAL.',
                 strategy: 'Conflicto patelar probable con MA. Mantener cierto valgo (rKA) reduce la necesidad de liberaciones laterales.',
                 prevalence: { healthy: 9.8, arthritic: 15.4 },
+                franceschettiPrev: 13.3,
+                sexDistribution: 'Ligero predominio femenino',
                 genderTip: 'Significativamente más frecuente en MUJERES (hasta 25%). Raro en hombres.'
             },
             'IV': {
@@ -1164,6 +1610,8 @@
                 risk: 'MA neutraliza el varo y eleva la línea articular medialmente. Provoca tensión medial y riesgo de "Lift-off" lateral.',
                 strategy: 'Similar al Tipo I, pero la JLO ya es neutra. El foco está en gestionar la tensión medial generada por la corrección del eje.',
                 prevalence: { healthy: 5.4, arthritic: 9.8 },
+                franceschettiPrev: 12.2,
+                sexDistribution: 'Sin predilección marcada',
                 genderTip: 'Sin predilección de género marcada.'
             },
             'V': {
@@ -1172,6 +1620,8 @@
                 risk: 'Concordante: La MA no altera el eje ni la línea articular. Estabilidad fisiológica preservada sin liberaciones.',
                 strategy: 'Caso ideal para Alineación Mecánica (MA) estándar. No requiere ajustes cinemáticos complejos.',
                 prevalence: { healthy: 15.4, arthritic: 14.6 },
+                franceschettiPrev: 12.8,
+                sexDistribution: 'Equilibrado entre sexos',
                 genderTip: 'Solo ~15% de la población total.'
             },
             'VI': {
@@ -1180,6 +1630,8 @@
                 risk: 'MA distaliza el fémur lateral. Tensa estructuras laterales y retináculo patelar. Riesgo de "Lift-off" medial.',
                 strategy: 'Vigilar el tracking patelar debido a la distalización de la tróclea lateral.',
                 prevalence: { healthy: 3.4, arthritic: 7.4 },
+                franceschettiPrev: 9.4,
+                sexDistribution: 'Ligeramente más común en mujeres',
                 genderTip: 'Ligeramente más común en mujeres.'
             },
             'VII': {
@@ -1188,6 +1640,8 @@
                 risk: 'MA muy discordante. Riesgo de grandes desequilibrios por inversión completa de la oblicuidad.',
                 strategy: 'Fenotipo raro/patológico. Evitar fórmulas estándar. Requiere planificación 3D.',
                 prevalence: { healthy: 0.2, arthritic: 0.6 },
+                franceschettiPrev: 2.8,
+                sexDistribution: 'Muestra insuficiente',
                 genderTip: 'Extremadamente raro.'
             },
             'VIII': {
@@ -1196,6 +1650,8 @@
                 risk: 'Inversión de la oblicuidad articular con MA.',
                 strategy: 'Individualizar. Verificar posible rotación en la radiografía o secuelas postraumáticas.',
                 prevalence: { healthy: 0.0, arthritic: 1.6 },
+                franceschettiPrev: 1.7,
+                sexDistribution: 'Muestra insuficiente',
                 genderTip: 'Raro.'
             },
             'IX': {
@@ -1204,9 +1660,15 @@
                 risk: 'Biomecánica compleja y atípica.',
                 strategy: 'Caso complejo. Evitar fórmulas estándar.',
                 prevalence: { healthy: 0.2, arthritic: 0.4 },
+                franceschettiPrev: 1.1,
+                sexDistribution: 'Muestra insuficiente',
                 genderTip: 'Raro.'
             }
         };
+
+        // Franceschetti prevalence sorted for ranking
+        const franceschettiRanking = ['I','II','III','IV','V','VI','VII','VIII','IX']
+            .sort((a, b) => clinicalData[b].franceschettiPrev - clinicalData[a].franceschettiPrev);
 
         // Initialize matrix cells
         function initializeMatrix() {
@@ -1328,6 +1790,16 @@
             document.getElementById('prev-arthritic').style.width = `${(data.prevalence.arthritic / maxPrev) * 100}%`;
             document.getElementById('prev-arthritic-text').textContent = `${data.prevalence.arthritic}%`;
 
+            // Update Franceschetti 2024 prevalence bar
+            document.getElementById('prev-franceschetti').style.width = `${(data.franceschettiPrev / maxPrev) * 100}%`;
+            document.getElementById('prev-franceschetti-text').textContent = `${data.franceschettiPrev}%`;
+
+            // Update epidemiological context
+            const rank = franceschettiRanking.indexOf(type) + 1;
+            const ordinal = rank === 1 ? '1.er' : rank + '.º';
+            document.getElementById('epi-context').textContent =
+                `El Tipo ${type} representa el ${data.franceschettiPrev}% de pacientes OA (${ordinal} más frecuente). ${data.sexDistribution}.`;
+
             // Update results bar
             document.getElementById('result-cpak').textContent = type;
             document.getElementById('result-cpak-label').textContent = data.title.split(' - ')[0];
@@ -1426,8 +1898,179 @@
             // Highlight the correct type in matrix
             highlightType(type);
 
+            // Update Franceschetti 2024 clinical evidence
+            updateDistanceToV(aHKA, JLO);
+            updateEvidenceAlert(hkaCat);
+
+            // Update telemetría para evolutivo
+            updateTelemetria(mhkaInput, ldfa, mpta, aHKA, type);
+
             // Update wear analysis panel
             updateWearAnalysis(mhkaInput, aHKA);
+        }
+
+        // ─────────────────────────────────────────────
+        //  D3 WEAR GAUGE
+        // ─────────────────────────────────────────────
+        function renderWearGauge(mhkaDeviation, aHKA, jlca, severityColor) {
+            const container = document.getElementById('wear-gauge');
+            while (container.firstChild) container.removeChild(container.firstChild);
+
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const textColor = isDark ? '#94a3b8' : '#555555';
+            const boldColor = isDark ? '#f1f5f9' : '#222222';
+            const gridColor = isDark ? 'rgba(75,85,99,0.4)' : 'rgba(0,0,0,0.08)';
+            const surfBg = isDark ? '#283244' : '#f8fafc';
+
+            const W = 560, H = 110;
+            const margin = { left: 40, right: 40, top: 42, bottom: 24 };
+            const gaugeW = W - margin.left - margin.right;
+            const gaugeH = 18;
+            const gaugeY = margin.top;
+
+            const svg = d3.select(container).append('svg')
+                .attr('width', W).attr('height', H)
+                .attr('viewBox', '0 0 ' + W + ' ' + H)
+                .attr('preserveAspectRatio', 'xMidYMid meet');
+
+            // Background
+            svg.append('rect')
+                .attr('width', W).attr('height', H)
+                .attr('rx', 10).attr('fill', surfBg);
+
+            const g = svg.append('g')
+                .attr('transform', 'translate(' + margin.left + ',0)');
+
+            // Defs for clip
+            const defs = svg.append('defs');
+            defs.append('clipPath').attr('id', 'gauge-clip')
+                .append('rect')
+                .attr('x', 0).attr('y', gaugeY)
+                .attr('width', gaugeW).attr('height', gaugeH)
+                .attr('rx', 4);
+
+            // Scale: -10 to +10
+            var x = d3.scaleLinear().domain([-10, 10]).range([0, gaugeW]);
+
+            // Severity zones
+            var zones = [
+                { start: -10, end: -5, color: isDark ? '#991b1b' : '#fecaca' },
+                { start: -5,  end: -2, color: isDark ? '#92400e' : '#fde68a' },
+                { start: -2,  end:  2, color: isDark ? '#166534' : '#bbf7d0' },
+                { start:  2,  end:  5, color: isDark ? '#92400e' : '#fde68a' },
+                { start:  5,  end: 10, color: isDark ? '#991b1b' : '#fecaca' }
+            ];
+
+            zones.forEach(function(z) {
+                g.append('rect')
+                    .attr('x', x(z.start)).attr('y', gaugeY)
+                    .attr('width', x(z.end) - x(z.start)).attr('height', gaugeH)
+                    .attr('fill', z.color)
+                    .attr('clip-path', svgUrl('gauge-clip'));
+            });
+
+            // Center line at 0
+            g.append('line')
+                .attr('x1', x(0)).attr('y1', gaugeY - 2)
+                .attr('x2', x(0)).attr('y2', gaugeY + gaugeH + 2)
+                .attr('stroke', gridColor).attr('stroke-width', 1.5);
+
+            // Tick marks (skip endpoints — Medial/Lateral labels serve as endpoints)
+            [-5, -2, 0, 2, 5].forEach(function(v) {
+                g.append('line')
+                    .attr('x1', x(v)).attr('y1', gaugeY + gaugeH)
+                    .attr('x2', x(v)).attr('y2', gaugeY + gaugeH + 4)
+                    .attr('stroke', textColor).attr('stroke-width', 0.8);
+                g.append('text')
+                    .attr('x', x(v)).attr('y', gaugeY + gaugeH + 14)
+                    .attr('text-anchor', 'middle')
+                    .attr('font-size', 8).attr('fill', textColor)
+                    .attr('font-family', 'Inter, sans-serif')
+                    .text(v > 0 ? '+' + v + '\u00B0' : v + '\u00B0');
+            });
+
+            // Endpoint labels: Medial / Lateral
+            g.append('text')
+                .attr('x', x(-10)).attr('y', gaugeY + gaugeH + 14)
+                .attr('text-anchor', 'start')
+                .attr('font-size', 9).attr('font-weight', 600)
+                .attr('fill', textColor).attr('font-family', 'Inter, sans-serif')
+                .text('Medial');
+            g.append('text')
+                .attr('x', x(10)).attr('y', gaugeY + gaugeH + 14)
+                .attr('text-anchor', 'end')
+                .attr('font-size', 9).attr('font-weight', 600)
+                .attr('fill', textColor).attr('font-family', 'Inter, sans-serif')
+                .text('Lateral');
+
+            // JLCA marker (diamond)
+            var clampedJlca = Math.max(-10, Math.min(10, jlca));
+            var markerX = x(clampedJlca);
+            var markerY = gaugeY + gaugeH / 2;
+            var mSize = 7;
+
+            // Marker glow
+            g.append('circle')
+                .attr('cx', markerX).attr('cy', markerY)
+                .attr('r', mSize + 2)
+                .attr('fill', 'none')
+                .attr('stroke', severityColor)
+                .attr('stroke-width', 2)
+                .attr('opacity', 0.3);
+
+            // Diamond marker
+            var dPath = 'M' + markerX + ',' + (markerY - mSize) +
+                ' L' + (markerX + mSize) + ',' + markerY +
+                ' L' + markerX + ',' + (markerY + mSize) +
+                ' L' + (markerX - mSize) + ',' + markerY + ' Z';
+            g.append('path')
+                .attr('d', dPath)
+                .attr('fill', severityColor)
+                .attr('stroke', isDark ? '#1f2937' : '#ffffff')
+                .attr('stroke-width', 1.5);
+
+            // Equation text: mHKA - aHKA = JLCA
+            var eqY = 24;
+            var mhkaStr = (mhkaDeviation > 0 ? '+' : '') + mhkaDeviation.toFixed(1) + '\u00B0';
+            var ahkaStr = (aHKA > 0 ? '+' : '') + aHKA.toFixed(1) + '\u00B0';
+            var jlcaStr = (jlca > 0 ? '+' : '') + jlca.toFixed(1) + '\u00B0';
+
+            var eqParts = [
+                { label: 'mHKA', value: mhkaStr, color: boldColor },
+                { op: '\u2212' },
+                { label: 'aHKA', value: ahkaStr, color: boldColor },
+                { op: '=' },
+                { label: 'JLCA', value: jlcaStr, color: severityColor }
+            ];
+
+            var cx = gaugeW / 2 - 100;
+            eqParts.forEach(function(p) {
+                if (p.op) {
+                    g.append('text')
+                        .attr('x', cx + 6).attr('y', eqY + 2)
+                        .attr('text-anchor', 'middle')
+                        .attr('font-size', 14).attr('fill', textColor)
+                        .attr('font-family', 'Inter, sans-serif')
+                        .text(p.op);
+                    cx += 20;
+                } else {
+                    g.append('text')
+                        .attr('x', cx + 24).attr('y', eqY - 12)
+                        .attr('text-anchor', 'middle')
+                        .attr('font-size', 9).attr('font-weight', 700)
+                        .attr('fill', textColor)
+                        .attr('font-family', 'Inter, sans-serif')
+                        .text(p.label);
+                    g.append('text')
+                        .attr('x', cx + 24).attr('y', eqY + 4)
+                        .attr('text-anchor', 'middle')
+                        .attr('font-size', 16).attr('font-weight', 700)
+                        .attr('fill', p.color)
+                        .attr('font-family', 'Inter, sans-serif')
+                        .text(p.value);
+                    cx += 56;
+                }
+            });
         }
 
         function updateWearAnalysis(mhkaInput, aHKA) {
@@ -1445,14 +2088,7 @@
             const jlca = mhkaDeviation - aHKA;
             const absJlca = Math.abs(jlca);
 
-            // Update values display
-            document.getElementById('wear-mhka').textContent = `${mhkaDeviation > 0 ? '+' : ''}${mhkaDeviation.toFixed(1)}°`;
-            document.getElementById('wear-ahka').textContent = `${aHKA > 0 ? '+' : ''}${aHKA.toFixed(1)}°`;
-            document.getElementById('wear-jlca').textContent = `${jlca > 0 ? '+' : ''}${jlca.toFixed(1)}°`;
-
-            // Update visual indicator
-            const indicatorPos = Math.max(0, Math.min(100, ((jlca + 10) / 20) * 100));
-            document.getElementById('wear-indicator').style.left = `calc(${indicatorPos}% - 5px)`;
+            // Gauge will be rendered after severity is determined (needs color)
 
             // Determine severity
             let severityTitle, dotClass, jlcaColor;
@@ -1495,12 +2131,31 @@
             document.getElementById('wear-severity-title').textContent = severityTitle;
             document.getElementById('wear-severity-title').style.color = jlcaColor;
 
-            // Update JLCA color
-            document.getElementById('wear-jlca').style.color = jlcaColor;
+            // Render D3 gauge (with CSS fallback)
+            var gaugeColorMap = { 'var(--green)': '#16a34a', 'var(--amber)': '#c0540a', 'var(--red)': '#dc2626' };
+            var isDarkNow = document.documentElement.getAttribute('data-theme') === 'dark';
+            if (isDarkNow) gaugeColorMap = { 'var(--green)': '#4ade80', 'var(--amber)': '#fbbf24', 'var(--red)': '#f87171' };
+            var resolvedColor = gaugeColorMap[jlcaColor] || jlcaColor;
 
-            // Update indicator color
-            const indicator = document.getElementById('wear-indicator');
-            indicator.style.background = jlcaColor;
+            try {
+                if (typeof d3 === 'undefined') throw new Error('D3 not loaded');
+                document.getElementById('wear-gauge').style.display = '';
+                document.getElementById('wear-calc-fallback').style.display = 'none';
+                renderWearGauge(mhkaDeviation, aHKA, jlca, resolvedColor);
+            } catch (e) {
+                console.warn('D3 gauge unavailable:', e.message);
+                // CSS fallback
+                document.getElementById('wear-gauge').style.display = 'none';
+                var fb = document.getElementById('wear-calc-fallback');
+                fb.style.display = '';
+                document.getElementById('wear-mhka-fb').textContent = (mhkaDeviation > 0 ? '+' : '') + mhkaDeviation.toFixed(1) + '\u00B0';
+                document.getElementById('wear-ahka-fb').textContent = (aHKA > 0 ? '+' : '') + aHKA.toFixed(1) + '\u00B0';
+                document.getElementById('wear-jlca-fb').textContent = (jlca > 0 ? '+' : '') + jlca.toFixed(1) + '\u00B0';
+                document.getElementById('wear-jlca-fb').style.color = jlcaColor;
+                var indicatorPos = Math.max(0, Math.min(100, ((jlca + 10) / 20) * 100));
+                document.getElementById('wear-indicator-fb').style.left = 'calc(' + indicatorPos + '% - 5px)';
+                document.getElementById('wear-indicator-fb').style.background = jlcaColor;
+            }
 
             // Update interpretation (always visible)
             document.getElementById('wear-interpretation-text').textContent = interpretation;
@@ -1530,6 +2185,99 @@
             } else {
                 correctionEl.classList.remove('visible');
             }
+        }
+
+        // ─────────────────────────────────────────────
+        //  DISTANCE TO TYPE V (MA-IDEAL)
+        // ─────────────────────────────────────────────
+        function updateDistanceToV(aHKA, JLO) {
+            const deltaAHKA = Math.abs(aHKA);       // distance from 0°
+            const deltaJLO = Math.abs(JLO - 180);   // distance from 180°
+
+            // aHKA bar: max scale 10°
+            const ahkaPercent = Math.min(100, (deltaAHKA / 10) * 100);
+            const ahkaBar = document.getElementById('dv-bar-ahka');
+            ahkaBar.style.width = Math.max(2, ahkaPercent) + '%';
+            ahkaBar.className = 'dv-bar ' + (deltaAHKA <= 2 ? 'ok' : deltaAHKA <= 5 ? 'moderate' : 'high');
+            document.getElementById('dv-val-ahka').textContent = `${deltaAHKA.toFixed(1)}°`;
+
+            // JLO bar: max scale 10°
+            const jloPercent = Math.min(100, (deltaJLO / 10) * 100);
+            const jloBar = document.getElementById('dv-bar-jlo');
+            jloBar.style.width = Math.max(2, jloPercent) + '%';
+            jloBar.className = 'dv-bar ' + (deltaJLO <= 3 ? 'ok' : deltaJLO <= 6 ? 'moderate' : 'high');
+            document.getElementById('dv-val-jlo').textContent = `${deltaJLO.toFixed(0)}°`;
+
+            // Update note based on proximity
+            const isTypeV = deltaAHKA <= 2 && deltaJLO <= 3;
+            const note = document.getElementById('dv-note');
+            if (isTypeV) {
+                note.textContent = 'Este paciente ES Tipo V nativo. Candidato ideal para MA estándar (solo el 12.8% de pacientes OA).';
+            } else {
+                note.textContent = `La corrección hacia Tipo V implica ${deltaAHKA > 2 ? deltaAHKA.toFixed(1) + '° de cambio en aHKA' : ''}${deltaAHKA > 2 && deltaJLO > 3 ? ' y ' : ''}${deltaJLO > 3 ? deltaJLO.toFixed(0) + '° de cambio en JLO' : ''}. Solo el 12.8% de pacientes OA son Tipo V nativo.`;
+            }
+        }
+
+        // ─────────────────────────────────────────────
+        //  EVIDENCE ALERT + TECHNIQUE BADGE
+        // ─────────────────────────────────────────────
+        function updateEvidenceAlert(hkaCat) {
+            const alert = document.getElementById('evidence-alert');
+            const title = document.getElementById('ea-title');
+            const text = document.getElementById('ea-text');
+            const icon = alert.querySelector('.ea-icon');
+            const badge = document.getElementById('technique-badge');
+
+            if (hkaCat === 'Varus') {
+                alert.className = 'evidence-alert warn';
+                icon.textContent = '\u26A0\uFE0F';
+                title.textContent = 'Fenotipo en varo: resultados inferiores con MA-TKA';
+                text.textContent = 'KSS 79.7 vs 85.6, OKS 39.2 vs 42.2, FJS 75.4 vs 87.4 (p<0.05 en las tres escalas). Solo el 15% de Tipos I/IV logran balance adecuado a 10° de flexión con MA. Considerar KA o subcorrección controlada (3-6° varo residual).';
+                badge.className = 'technique-badge warn';
+                badge.textContent = 'Evidencia: KA o subcorrección 3-6°';
+            } else if (hkaCat === 'Valgus') {
+                alert.className = 'evidence-alert ok';
+                icon.textContent = '\u2705';
+                title.textContent = 'MA efectiva en fenotipos valgo';
+                text.textContent = 'MA-TKA muestra resultados comparables a la media poblacional independientemente del subtipo CPAK valgo. No se identifican desventajas específicas de fenotipo.';
+                badge.className = 'technique-badge ok';
+                badge.textContent = 'Evidencia: MA efectiva';
+            } else {
+                alert.className = 'evidence-alert ok';
+                icon.textContent = '\u2705';
+                title.textContent = 'Resultados predecibles con MA-TKA';
+                text.textContent = 'Fenotipo neutro: resultados sin diferencias significativas frente a otros grupos con MA. Candidatos más previsibles para MA estándar.';
+                badge.className = 'technique-badge ok';
+                badge.textContent = 'Evidencia: MA estándar';
+            }
+        }
+
+        function updateTelemetria(mhkaInput, ldfa, mpta, aHKA, type) {
+            const mhkaStr = mhkaInput !== '' ? `${parseFloat(mhkaInput).toFixed(0)}°` : '--';
+            const data = clinicalData[type];
+            const hkaLabel = aHKA < -2 ? 'Varo' : aHKA > 2 ? 'Valgo' : 'Neutro';
+            const lines = [
+                'Telemetría:',
+                `· mHKA: ${mhkaStr}`,
+                `· mLDFA: ${ldfa.toFixed(0)}°`,
+                `· mMPTA: ${mpta.toFixed(0)}°`,
+                `· aHKA: ${aHKA > 0 ? '+' : ''}${aHKA.toFixed(1)}° (${hkaLabel})`,
+                `· CPAK: Tipo ${type}`
+            ];
+            document.getElementById('telemetria-text').textContent = lines.join('\n');
+        }
+
+        function copiarTelemetria() {
+            const text = document.getElementById('telemetria-text').textContent;
+            if (!text) return;
+            navigator.clipboard.writeText(text).then(() => mostrarToast('Telemetría copiada'));
+        }
+
+        function toggleGlossary() {
+            const content = document.getElementById('glossary-content');
+            const btn = document.getElementById('btn-glossary');
+            content.classList.toggle('visible');
+            btn.classList.toggle('open');
         }
 
         function resetInputs() {
@@ -1606,6 +2354,11 @@
             const activeCell = document.querySelector('.matrix-cell.active');
             const activeType = activeCell ? activeCell.dataset.type : null;
             if (activeType) highlightType(activeType); else initializeMatrix();
+            // Re-render D3 wear gauge with new theme
+            try {
+                var mhkaVal = document.getElementById('input-mhka').value;
+                if (mhkaVal && typeof calculateAndUpdate === 'function') calculateAndUpdate();
+            } catch (e) { /* ignore */ }
         });
 
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
