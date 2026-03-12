@@ -1885,8 +1885,8 @@
                 jlcaEl.textContent = `${jlca > 0 ? '+' : ''}${jlca.toFixed(1)}°`;
 
                 let jlcaLabel = 'Normal';
-                if (jlca < -3) jlcaLabel = 'Apex Medial';
-                if (jlca > 0) jlcaLabel = 'Apex Lateral';
+                if (jlca < -2) jlcaLabel = 'Apex Medial';
+                if (jlca > 2) jlcaLabel = 'Apex Lateral';
                 document.getElementById('result-jlca-label').textContent = jlcaLabel;
             } else {
                 document.getElementById('result-mhka').textContent = '--';
