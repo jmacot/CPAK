@@ -1092,6 +1092,207 @@
         .glossary-content .gval { font-weight: 600; color: var(--accent); }
         [data-theme="dark"] .glossary-content { background: #283244; }
 
+        /* ── SEX SELECTOR ── */
+        .sex-toggle-group { margin-bottom: 14px; }
+        .sex-toggle-group > label {
+            font-size: 11px; font-weight: 700; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.5px;
+            margin-bottom: 5px; display: block;
+        }
+        .sex-toggle {
+            display: flex; background: var(--surface2);
+            border-radius: 10px; padding: 3px; gap: 2px;
+        }
+        .sex-toggle button {
+            flex: 1; padding: 8px 12px; border: none; border-radius: 8px;
+            background: transparent; font-family: 'Inter', Arial, sans-serif;
+            font-size: 13px; font-weight: 600; color: var(--text-muted);
+            cursor: pointer; transition: all 0.2s;
+        }
+        .sex-toggle button:hover { color: var(--text); }
+        .sex-toggle button.active {
+            background: var(--surface); color: var(--text);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* ── HIRSCHMANN 2024 CLASSIFICATION ── */
+        .hirschmann-header {
+            display: flex; align-items: center; gap: 10px;
+            margin-bottom: 14px; padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .hirschmann-header .hirsch-icon { font-size: 16px; }
+        .hirschmann-header h3 {
+            font-size: 12px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.5px; color: var(--text); flex: 1;
+        }
+        .hirschmann-ref-tag {
+            font-size: 10px; font-weight: 600; color: var(--accent);
+            background: var(--accent-light); padding: 3px 10px;
+            border-radius: 999px; white-space: nowrap;
+        }
+        .hirschmann-info-btn {
+            width: 28px; height: 28px; border-radius: 50%;
+            border: 1.5px solid var(--border); background: transparent;
+            font-size: 13px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; color: var(--text-muted); flex-shrink: 0;
+        }
+        .hirschmann-info-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .hirschmann-info-content {
+            display: none; padding: 12px 14px; background: var(--surface2);
+            border-radius: 8px; margin-bottom: 14px;
+            font-size: 11px; line-height: 1.7; color: var(--text-muted);
+        }
+        .hirschmann-info-content.visible { display: block; animation: slideReveal 0.3s ease-out; }
+        .hirschmann-info-content dt { font-weight: 700; display: inline; }
+        .hirschmann-info-content dt.h-neutral { color: var(--green); }
+        .hirschmann-info-content dt.h-normal { color: #3b82f6; }
+        .hirschmann-info-content dt.h-deviant { color: var(--amber); }
+        .hirschmann-info-content dt.h-aberrant { color: var(--red); }
+        [data-theme="dark"] .hirschmann-info-content dt.h-normal { color: #60a5fa; }
+        .hirschmann-info-content dd { display: inline; margin: 0; }
+        .hirschmann-info-content dd::after { content: ''; display: block; margin-bottom: 4px; }
+
+        .hirschmann-sex-hint {
+            font-size: 11px; color: var(--text-light);
+            text-align: center; padding: 16px; font-style: italic;
+        }
+        .hirschmann-angles {
+            display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px;
+        }
+        .angle-row {
+            display: flex; align-items: center; gap: 10px;
+            padding: 8px 12px; background: var(--surface2); border-radius: 8px;
+        }
+        .angle-row.disabled { opacity: 0.5; }
+        .angle-name {
+            font-size: 11px; font-weight: 700; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.5px;
+            width: 36px; flex-shrink: 0;
+        }
+        .angle-value {
+            font-size: 15px; font-weight: 700; color: var(--text);
+            width: 54px; flex-shrink: 0;
+        }
+        .norm-badge {
+            font-size: 11px; font-weight: 700; padding: 3px 10px;
+            border-radius: 999px; text-transform: uppercase; letter-spacing: 0.3px;
+            white-space: nowrap;
+            background: var(--surface2); color: var(--text-light);
+            border: 1px solid var(--border-light);
+        }
+        .norm-badge.neutral { background: rgba(22,163,74,0.12); color: var(--green); border-color: rgba(22,163,74,0.2); }
+        .norm-badge.normal { background: rgba(59,130,246,0.12); color: #3b82f6; border-color: rgba(59,130,246,0.2); }
+        .norm-badge.deviant { background: rgba(192,84,10,0.12); color: var(--amber); border-color: rgba(192,84,10,0.25); }
+        .norm-badge.aberrant { background: rgba(220,38,38,0.12); color: var(--red); border-color: rgba(220,38,38,0.2); }
+        [data-theme="dark"] .norm-badge.neutral { background: rgba(74,222,128,0.15); color: #4ade80; border-color: rgba(74,222,128,0.25); }
+        [data-theme="dark"] .norm-badge.normal { background: rgba(96,165,250,0.15); color: #60a5fa; border-color: rgba(96,165,250,0.25); }
+        [data-theme="dark"] .norm-badge.deviant { background: rgba(251,191,36,0.15); color: #fbbf24; border-color: rgba(251,191,36,0.25); }
+        [data-theme="dark"] .norm-badge.aberrant { background: rgba(248,113,113,0.15); color: #f87171; border-color: rgba(248,113,113,0.25); }
+        .angle-detail {
+            font-size: 11px; color: var(--text-light);
+            flex: 1; text-align: right;
+        }
+        .hirschmann-combined {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 14px; background: var(--surface2);
+            border-radius: 10px; margin-bottom: 14px;
+            border: 1px solid var(--border-light);
+        }
+        .combined-label {
+            font-size: 11px; font-weight: 700; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .combined-explain {
+            font-size: 11px; color: var(--text-light); font-style: italic;
+            margin-left: 8px;
+        }
+        .hirschmann-recommendation {
+            padding: 14px 16px; border-radius: 10px;
+            margin-bottom: 14px; border: 2px solid;
+        }
+        .hirschmann-recommendation.replicate { background: rgba(22,163,74,0.06); border-color: rgba(22,163,74,0.25); }
+        .hirschmann-recommendation.adjust { background: rgba(192,84,10,0.06); border-color: rgba(192,84,10,0.25); }
+        .hirschmann-recommendation.constraint { background: rgba(220,38,38,0.06); border-color: rgba(220,38,38,0.25); }
+        [data-theme="dark"] .hirschmann-recommendation.replicate { background: rgba(74,222,128,0.08); border-color: rgba(74,222,128,0.2); }
+        [data-theme="dark"] .hirschmann-recommendation.adjust { background: rgba(251,191,36,0.08); border-color: rgba(251,191,36,0.2); }
+        [data-theme="dark"] .hirschmann-recommendation.constraint { background: rgba(248,113,113,0.08); border-color: rgba(248,113,113,0.2); }
+        .rec-term {
+            font-family: 'Lora', serif; font-size: 1.1rem;
+            font-weight: 700; margin-bottom: 4px;
+        }
+        .hirschmann-recommendation.replicate .rec-term { color: var(--green); }
+        .hirschmann-recommendation.adjust .rec-term { color: var(--amber); }
+        .hirschmann-recommendation.constraint .rec-term { color: var(--red); }
+        .rec-text { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+        .hirschmann-alert {
+            display: none; padding: 10px 14px; border-radius: 8px;
+            background: var(--red-light); border: 1px solid rgba(220,38,38,0.25);
+            margin-bottom: 14px; font-size: 12px; color: var(--red);
+            font-weight: 600; line-height: 1.5;
+        }
+        .hirschmann-alert.visible { display: block; animation: slideReveal 0.4s ease-out; }
+        .hirschmann-prevalence {
+            font-size: 12px; color: var(--text-muted); line-height: 1.5;
+            padding: 8px 12px; background: var(--surface2);
+            border-radius: 8px; margin-bottom: 14px;
+        }
+        .hirschmann-ref-footer {
+            font-size: 10px; color: var(--text-light);
+            font-style: italic; line-height: 1.5;
+        }
+        .hirschmann-ref-footer a {
+            color: var(--accent); text-decoration: none; font-style: normal; font-weight: 600;
+        }
+        .hirschmann-ref-footer a:hover { text-decoration: underline; }
+        /* ── HIRSCHMANN BELL CURVE CHART ── */
+        .hirschmann-chart-wrap {
+            width: 100%; margin-bottom: 14px; overflow: visible;
+        }
+        .hirschmann-chart-wrap svg {
+            display: block; width: 100%; height: auto; max-width: 100%;
+        }
+        .hirsch-chart-fallback {
+            display: none; position: relative;
+            height: 140px; border-radius: 8px; overflow: hidden;
+            margin-bottom: 14px; background: var(--surface2);
+            border: 1px solid var(--border-light);
+        }
+        .hirsch-chart-fallback.visible { display: block; }
+        .hirsch-fb-zones {
+            display: flex; height: 70px; position: relative;
+        }
+        .hirsch-fb-zone {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px;
+        }
+        .hirsch-fb-zone.z-aberrant-l, .hirsch-fb-zone.z-aberrant-r { background: rgba(220,38,38,0.12); color: var(--red); }
+        .hirsch-fb-zone.z-deviant-l, .hirsch-fb-zone.z-deviant-r { background: rgba(192,84,10,0.12); color: var(--amber); flex: 1; }
+        .hirsch-fb-zone.z-normal-l, .hirsch-fb-zone.z-normal-r { background: rgba(59,130,246,0.12); color: #3b82f6; flex: 1; }
+        .hirsch-fb-zone.z-neutral { background: rgba(22,163,74,0.12); color: var(--green); flex: 2; }
+        .hirsch-fb-rec {
+            display: flex; height: 28px;
+        }
+        .hirsch-fb-rec-seg {
+            display: flex; align-items: center; justify-content: center;
+            font-size: 9px; font-weight: 700; letter-spacing: 0.3px;
+        }
+        .hirsch-fb-rec-seg.r-constraint { flex: 2; background: rgba(220,38,38,0.18); color: var(--red); }
+        .hirsch-fb-rec-seg.r-adjust { flex: 2; background: rgba(192,84,10,0.18); color: var(--amber); }
+        .hirsch-fb-rec-seg.r-replicate { flex: 4; background: rgba(22,163,74,0.18); color: var(--green); }
+        .hirsch-fb-labels {
+            display: flex; justify-content: space-between;
+            padding: 4px 8px; font-size: 9px; color: var(--text-light);
+        }
+        [data-theme="dark"] .hirsch-fb-zone.z-normal-l,
+        [data-theme="dark"] .hirsch-fb-zone.z-normal-r { color: #60a5fa; }
+
+        @media (max-width: 600px) {
+            .angle-row { flex-wrap: wrap; }
+            .angle-detail { width: 100%; text-align: left; margin-top: 2px; }
+        }
+
         /* ── CLINICAL PANEL — FULL-WIDTH LAYOUT ── */
         .clinical-full {
             animation: fadeInUp 0.6s ease-out 0.15s both;
@@ -1253,6 +1454,14 @@
                         <div class="input-group">
                             <label>MPTA</label>
                             <input type="number" id="input-mpta" step="0.1" value="87">
+                        </div>
+                    </div>
+
+                    <div class="sex-toggle-group">
+                        <label>Sexo del paciente</label>
+                        <div class="sex-toggle" id="sex-toggle">
+                            <button type="button" data-sex="M" onclick="selectSex('M')">Varón</button>
+                            <button type="button" data-sex="F" onclick="selectSex('F')">Mujer</button>
                         </div>
                     </div>
 
@@ -1434,12 +1643,116 @@
             </div>
         </div>
 
+        <!-- Hirschmann 2024 — Normality Classification (full-width) -->
+        <div class="card clinical-full" id="hirschmann-panel">
+            <div class="hirschmann-header">
+                <span class="hirsch-icon">📊</span>
+                <div style="flex:1;">
+                    <h3>Clasificación de Normalidad</h3>
+                    <span style="font-size:11px;color:var(--text-light);font-style:italic;">¿Se puede restaurar el fenotipo nativo?</span>
+                </div>
+                <span class="hirschmann-ref-tag">Hirschmann 2024</span>
+                <button class="hirschmann-info-btn" onclick="toggleHirschmannInfo()" title="Información sobre categorías" aria-label="Información sobre categorías">ℹ</button>
+            </div>
+
+            <div class="hirschmann-info-content" id="hirsch-info">
+                <p style="margin-bottom:8px;font-size:12px;color:var(--text-muted);line-height:1.6;">
+                    Hirschmann et al. (2024) analizaron 11.991 rodillas no artrósicas mediante TC 3D y definieron rangos de normalidad estadística para HKA, FMA y TMA según el número de desviaciones estándar (SD) respecto a la media poblacional, estratificados por sexo. Esta clasificación determina si el alineamiento coronal nativo del paciente es un fenotipo constitucional que puede restaurarse en la artroplastia, o si requiere corrección.
+                </p>
+                <dl>
+                    <dt class="h-neutral">Neutral (≤1 SD):</dt><dd> El ángulo se encuentra en el rango más central de la distribución normal. El 68% de la población sana cae en esta zona. <strong>Implicación:</strong> fenotipo constitucional seguro para restaurar.</dd>
+                    <dt class="h-normal">Normal (1–2 SD):</dt><dd> Variante anatómica frecuente, presente en otro ~27% de la población. Aunque se aleja de la media, sigue dentro de los límites de normalidad. <strong>Implicación:</strong> puede usarse como objetivo de alineación personalizada.</dd>
+                    <dt class="h-deviant">Desviado (2–3 SD):</dt><dd> Alineamiento infrecuente (solo ~4% de la población sana). Replicarlo en la artroplastia podría sobrecargar un compartimento. <strong>Implicación:</strong> ajustar el objetivo hacia el límite de la zona normal (±2 SD).</dd>
+                    <dt class="h-aberrant">Aberrante (>3 SD):</dt><dd> Extremo estadístico (<1% de la población). Asociado a riesgo elevado de inestabilidad y fallo del implante. <strong>Implicación:</strong> no restaurar; corregir hacia la zona segura, considerando implantes con mayor constricción.</dd>
+                </dl>
+            </div>
+
+            <div id="hirsch-sex-hint" class="hirschmann-sex-hint">Selecciona el sexo del paciente para ver la clasificación de normalidad.</div>
+
+            <div id="hirsch-content" style="display:none;">
+                <div class="hirschmann-angles">
+                    <div class="angle-row disabled" id="hirsch-hka-row">
+                        <span class="angle-name">HKA</span>
+                        <span class="angle-value" id="hirsch-hka-val">--</span>
+                        <span class="norm-badge" id="hirsch-hka-badge">Requiere mHKA</span>
+                        <span class="angle-detail" id="hirsch-hka-detail"></span>
+                    </div>
+                    <div class="angle-row">
+                        <span class="angle-name">FMA</span>
+                        <span class="angle-value" id="hirsch-fma-val">--</span>
+                        <span class="norm-badge" id="hirsch-fma-badge">--</span>
+                        <span class="angle-detail" id="hirsch-fma-detail"></span>
+                    </div>
+                    <div class="angle-row">
+                        <span class="angle-name">TMA</span>
+                        <span class="angle-value" id="hirsch-tma-val">--</span>
+                        <span class="norm-badge" id="hirsch-tma-badge">--</span>
+                        <span class="angle-detail" id="hirsch-tma-detail"></span>
+                    </div>
+                </div>
+
+                <div id="hirsch-chart" class="hirschmann-chart-wrap"></div>
+
+                <div id="hirsch-chart-fallback" class="hirsch-chart-fallback">
+                    <div class="hirsch-fb-zones">
+                        <div class="hirsch-fb-zone z-aberrant-l">Aberrante</div>
+                        <div class="hirsch-fb-zone z-deviant-l">Desviado</div>
+                        <div class="hirsch-fb-zone z-normal-l">Normal</div>
+                        <div class="hirsch-fb-zone z-neutral">Neutral</div>
+                        <div class="hirsch-fb-zone z-normal-r">Normal</div>
+                        <div class="hirsch-fb-zone z-deviant-r">Desviado</div>
+                        <div class="hirsch-fb-zone z-aberrant-r">Aberrante</div>
+                    </div>
+                    <div class="hirsch-fb-rec">
+                        <div class="hirsch-fb-rec-seg r-constraint">CONSTRICCIÓN</div>
+                        <div class="hirsch-fb-rec-seg r-adjust">AJUSTAR</div>
+                        <div class="hirsch-fb-rec-seg r-replicate">REPLICAR</div>
+                        <div class="hirsch-fb-rec-seg r-adjust">AJUSTAR</div>
+                        <div class="hirsch-fb-rec-seg r-constraint">CONSTRICCIÓN</div>
+                    </div>
+                    <div class="hirsch-fb-labels">
+                        <span>Valgo</span>
+                        <span>-3SD</span>
+                        <span>-2SD</span>
+                        <span>-1SD</span>
+                        <span>Media</span>
+                        <span>+1SD</span>
+                        <span>+2SD</span>
+                        <span>+3SD</span>
+                        <span>Varo</span>
+                    </div>
+                </div>
+
+                <div class="hirschmann-combined" id="hirsch-combined">
+                    <span class="combined-label">Clasificación combinada</span>
+                    <span class="norm-badge" id="hirsch-combined-badge">--</span>
+                    <span class="combined-explain" id="hirsch-combined-explain"></span>
+                </div>
+
+                <div class="hirschmann-recommendation replicate" id="hirsch-recommendation">
+                    <div class="rec-term" id="hirsch-rec-term">REPLICAR</div>
+                    <div class="rec-text" id="hirsch-rec-text">Restaurar el fenotipo nativo del paciente.</div>
+                </div>
+
+                <div class="hirschmann-alert" id="hirsch-alert">
+                    ⚠️ HKA en rango aberrante. Según Hirschmann 2024, este alineamiento no debería usarse como objetivo de alineamiento personalizado.
+                </div>
+
+                <div class="hirschmann-prevalence" id="hirsch-prevalence" style="display:none;"></div>
+
+                <div class="hirschmann-ref-footer">
+                    Clasificación basada en: <a href="https://doi.org/10.1002/ksa.12066" target="_blank" rel="noopener noreferrer">Hirschmann MT et al. Definition of normal, neutral, deviant and aberrant coronal alignment for total knee arthroplasty.</a> <em>Knee Surg Sports Traumatol Arthrosc.</em> 2024;32:473–489.
+                </div>
+            </div>
+        </div>
+
         <!-- Clinical Panel (full-width) -->
         <div class="card clinical-full" id="clinical-panel">
             <div class="clinical-header">
                 <div>
                     <div class="cpak-title" id="cpak-title">CPAK Tipo II</div>
                     <div class="cpak-subtitle" id="cpak-subtitle">Alineación Neutra - JLO Distal</div>
+                    <div style="font-size:11px;color:var(--text-light);font-style:italic;margin-top:2px;">¿Qué técnica de alineación usar?</div>
                 </div>
                 <div class="deformity-badge" id="deformity-origin">Sin deformidad ósea significativa</div>
             </div>
@@ -1574,6 +1887,541 @@
             t.classList.add('show');
             clearTimeout(t._timer);
             t._timer = setTimeout(() => t.classList.remove('show'), 2200);
+        }
+
+        // ─────────────────────────────────────────────
+        //  HIRSCHMANN 2024 — NORMALITY CLASSIFICATION
+        // ─────────────────────────────────────────────
+
+        // Reference values — Table 4, non-OA population
+        const HIRSCHMANN_REF = {
+            M: { HKA: { mean: 179.2, sd: 2.78 }, FMA: { mean: 93.1, sd: 2.12 }, TMA: { mean: 86.7, sd: 2.27 } },
+            F: { HKA: { mean: 180.5, sd: 2.82 }, FMA: { mean: 93.8, sd: 1.75 }, TMA: { mean: 88.0, sd: 2.37 } }
+        };
+
+        // HKA aberrant thresholds — Figure 10
+        const HKA_ABERRANT = {
+            M: { varusBelow: 170.0, valgusAbove: 186.8 },
+            F: { varusBelow: 172.6, valgusAbove: 189.4 }
+        };
+
+        let selectedSex = null;
+
+        function selectSex(sex) {
+            selectedSex = sex;
+            document.querySelectorAll('#sex-toggle button').forEach(function(btn) {
+                btn.classList.toggle('active', btn.dataset.sex === sex);
+            });
+            calculateAndUpdate();
+        }
+
+        function classifyNormality(value, mean, sd) {
+            var deviation = Math.abs(value - mean);
+            var nSD = deviation / sd;
+            if (nSD <= 1) return { category: 'neutral', label: 'Neutral', nSD: nSD };
+            if (nSD <= 2) return { category: 'normal', label: 'Normal', nSD: nSD };
+            if (nSD <= 3) return { category: 'deviant', label: 'Desviado', nSD: nSD };
+            return { category: 'aberrant', label: 'Aberrante', nSD: nSD };
+        }
+
+        function getWorstCategory(categories) {
+            var order = ['neutral', 'normal', 'deviant', 'aberrant'];
+            var worstIdx = 0;
+            for (var i = 0; i < categories.length; i++) {
+                var idx = order.indexOf(categories[i].category);
+                if (idx > worstIdx) worstIdx = idx;
+            }
+            var labels = { neutral: 'Neutral', normal: 'Normal', deviant: 'Desviado', aberrant: 'Aberrante' };
+            return { category: order[worstIdx], label: labels[order[worstIdx]] };
+        }
+
+        function getOAPrevalence(mhkaDeviation) {
+            var d = mhkaDeviation;
+            if (d > 10.5) return 0.9;
+            if (d > 7.5) return 2.7;
+            if (d > 4.5) return 6.1;
+            if (d > 1.5) return 9.7;
+            if (d >= -1.5) return 13.5;
+            if (d >= -4.5) return 23.6;
+            if (d >= -7.5) return 24.8;
+            if (d >= -10.5) return 13.3;
+            if (d >= -13.5) return 4.5;
+            return 0.9;
+        }
+
+        function toggleHirschmannInfo() {
+            document.getElementById('hirsch-info').classList.toggle('visible');
+        }
+
+        function setPrevalenceText(el, pct) {
+            while (el.firstChild) el.removeChild(el.firstChild);
+            el.appendChild(document.createTextNode('Este fenotipo corresponde al '));
+            var strong = document.createElement('strong');
+            strong.textContent = pct.toFixed(1) + '%';
+            el.appendChild(strong);
+            el.appendChild(document.createTextNode(' de los pacientes con artrosis de rodilla '));
+            var em = document.createElement('em');
+            em.textContent = '(Hirschmann 2024, n=11.991)';
+            el.appendChild(em);
+            el.appendChild(document.createTextNode('.'));
+        }
+
+        // ─────────────────────────────────────────────
+        //  HIRSCHMANN BELL CURVE — D3 Visualization
+        // ─────────────────────────────────────────────
+        function renderHirschmannChart(markers, hasHKA) {
+            // markers: array of { label, signedSD, category } for FMA, TMA, and optionally HKA
+            // signedSD convention: negative = valgus (left), positive = varus (right)
+            var container = document.getElementById('hirsch-chart');
+            var fallback = document.getElementById('hirsch-chart-fallback');
+
+            if (typeof d3 === 'undefined') {
+                container.innerHTML = '';
+                fallback.classList.add('visible');
+                return;
+            }
+            fallback.classList.remove('visible');
+            container.innerHTML = '';
+
+            var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            var W = 540, H = 260;
+            var margin = { top: 4, right: 24, bottom: 10, left: 24 };
+            var w = W - margin.left - margin.right;
+
+            // Vertical layout
+            var bracketH = 52;     // zone bracket arrows
+            var curveTop = bracketH + 2;
+            var curveH = 110;      // gaussian curve
+            var curveBase = curveTop + curveH;
+            var arrowBarY = curveBase + 6;
+            var arrowBarH = 20;
+            var markerLabelBaseY = arrowBarY + arrowBarH + 10;
+            var labelRowY = markerLabelBaseY + 16;
+
+            var svg = d3.select(container).append('svg')
+                .attr('width', W).attr('height', H)
+                .attr('viewBox', '0 0 ' + W + ' ' + H)
+                .attr('preserveAspectRatio', 'xMidYMid meet');
+
+            var defs = svg.append('defs');
+            // Arrowhead markers for bracket arrows
+            function addArrowMarker(id, color) {
+                defs.append('marker').attr('id', id)
+                    .attr('viewBox', '0 0 8 8').attr('refX', 8).attr('refY', 4)
+                    .attr('markerWidth', 6).attr('markerHeight', 6).attr('orient', 'auto')
+                    .append('path').attr('d', 'M 0 1 L 8 4 L 0 7 Z').attr('fill', color);
+            }
+            function addArrowMarkerRev(id, color) {
+                defs.append('marker').attr('id', id)
+                    .attr('viewBox', '0 0 8 8').attr('refX', 0).attr('refY', 4)
+                    .attr('markerWidth', 6).attr('markerHeight', 6).attr('orient', 'auto')
+                    .append('path').attr('d', 'M 8 1 L 0 4 L 8 7 Z').attr('fill', color);
+            }
+            var greenC = isDark ? '#4ade80' : '#16a34a';
+            var blueC = isDark ? '#60a5fa' : '#2563eb';
+            var redC = isDark ? '#f87171' : '#dc2626';
+            addArrowMarker('arr-green', greenC); addArrowMarkerRev('arr-green-r', greenC);
+            addArrowMarker('arr-blue', blueC); addArrowMarkerRev('arr-blue-r', blueC);
+            addArrowMarker('arr-red', redC); addArrowMarkerRev('arr-red-r', redC);
+
+            var g = svg.append('g')
+                .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+            // X scale: -4.5 SD to +4.5 SD (left=valgus, right=varus)
+            var xScale = d3.scaleLinear().domain([-4.5, 4.5]).range([0, w]);
+            function gauss(x) { return Math.exp(-0.5 * x * x) / Math.sqrt(2 * Math.PI); }
+            var yMax = gauss(0) * 1.05;
+            var yScale = d3.scaleLinear().domain([0, yMax]).range([curveBase, curveTop]);
+
+            // ── 1. ZONE BRACKET ARROWS (above the curve) ──
+            // Row positions from top
+            var bRow1 = 6;   // ABERRANCIA
+            var bRow2 = 18;  // DESVIACIÓN
+            var bRow3 = 32;  // NORMALIDAD
+            var bRow4 = 44;  // NEUTRALIDAD
+
+            function bracketArrow(x1, x2, y, color, markStart, markEnd) {
+                g.append('line')
+                    .attr('x1', xScale(x1)).attr('x2', xScale(x2))
+                    .attr('y1', y).attr('y2', y)
+                    .attr('stroke', color).attr('stroke-width', 1.2)
+                    .attr('marker-start', markStart ? svgUrl(markStart) : null)
+                    .attr('marker-end', markEnd ? svgUrl(markEnd) : null);
+            }
+
+            // ABERRANCIA (red) — outermost, at extremes
+            bracketArrow(-4.5, -3, bRow1, redC, 'arr-red-r', 'arr-red');
+            g.append('text').attr('x', xScale(-3.75)).attr('y', bRow1 - 3)
+                .attr('text-anchor', 'middle').attr('font-size', '8px').attr('font-weight', '700')
+                .attr('font-family', 'Inter, sans-serif').attr('fill', redC).text('ABERRANCIA');
+            bracketArrow(3, 4.5, bRow1, redC, 'arr-red-r', 'arr-red');
+            g.append('text').attr('x', xScale(3.75)).attr('y', bRow1 - 3)
+                .attr('text-anchor', 'middle').attr('font-size', '8px').attr('font-weight', '700')
+                .attr('font-family', 'Inter, sans-serif').attr('fill', redC).text('ABERRANCIA');
+
+            // DESVIACIÓN (blue) — ±2 to ±3
+            bracketArrow(-3, -2, bRow2, blueC, 'arr-blue-r', 'arr-blue');
+            g.append('text').attr('x', xScale(-2.5)).attr('y', bRow2 - 3)
+                .attr('text-anchor', 'middle').attr('font-size', '8px').attr('font-weight', '700')
+                .attr('font-family', 'Inter, sans-serif').attr('fill', blueC).text('DESVIACIÓN');
+            bracketArrow(2, 3, bRow2, blueC, 'arr-blue-r', 'arr-blue');
+            g.append('text').attr('x', xScale(2.5)).attr('y', bRow2 - 3)
+                .attr('text-anchor', 'middle').attr('font-size', '8px').attr('font-weight', '700')
+                .attr('font-family', 'Inter, sans-serif').attr('fill', blueC).text('DESVIACIÓN');
+
+            // NORMALIDAD (blue) — ±2 span
+            bracketArrow(-2, 2, bRow3, blueC, 'arr-blue-r', 'arr-blue');
+            g.append('text').attr('x', xScale(0)).attr('y', bRow3 - 3)
+                .attr('text-anchor', 'middle').attr('font-size', '8px').attr('font-weight', '700')
+                .attr('font-family', 'Inter, sans-serif').attr('fill', blueC).text('NORMALIDAD');
+
+            // NEUTRALIDAD (green) — ±1 span
+            bracketArrow(-1, 1, bRow4, greenC, 'arr-green-r', 'arr-green');
+            g.append('text').attr('x', xScale(0)).attr('y', bRow4 - 3)
+                .attr('text-anchor', 'middle').attr('font-size', '8px').attr('font-weight', '700')
+                .attr('font-family', 'Inter, sans-serif').attr('fill', greenC).text('NEUTRALIDAD');
+
+            // ── 2. GAUSSIAN CURVE with colored zone fills ──
+            var zoneColors = {
+                neutral:  isDark ? 'rgba(74,222,128,0.20)' : 'rgba(22,163,74,0.15)',
+                normal:   isDark ? 'rgba(96,165,250,0.20)' : 'rgba(59,130,246,0.15)',
+                deviant:  isDark ? 'rgba(251,191,36,0.18)' : 'rgba(192,84,10,0.12)',
+                aberrant: isDark ? 'rgba(248,113,113,0.15)' : 'rgba(220,38,38,0.10)'
+            };
+            var zones = [
+                { x0: -4.5, x1: -3, fill: zoneColors.aberrant },
+                { x0: -3, x1: -2, fill: zoneColors.deviant },
+                { x0: -2, x1: -1, fill: zoneColors.normal },
+                { x0: -1, x1: 1, fill: zoneColors.neutral },
+                { x0: 1, x1: 2, fill: zoneColors.normal },
+                { x0: 2, x1: 3, fill: zoneColors.deviant },
+                { x0: 3, x1: 4.5, fill: zoneColors.aberrant }
+            ];
+            zones.forEach(function(zone) {
+                var pts = [];
+                for (var xi = zone.x0; xi <= zone.x1; xi += 0.05) {
+                    pts.push({ x: xi, y: gauss(xi) });
+                }
+                pts.push({ x: zone.x1, y: gauss(zone.x1) });
+                var area = d3.area()
+                    .x(function(d) { return xScale(d.x); })
+                    .y0(curveBase)
+                    .y1(function(d) { return yScale(d.y); })
+                    .curve(d3.curveBasis);
+                g.append('path').datum(pts).attr('d', area).attr('fill', zone.fill);
+            });
+
+            // Curve outline
+            var curvePoints = [];
+            for (var xi = -4.5; xi <= 4.5; xi += 0.05) {
+                curvePoints.push({ x: xi, y: gauss(xi) });
+            }
+            var line = d3.line()
+                .x(function(d) { return xScale(d.x); })
+                .y(function(d) { return yScale(d.y); })
+                .curve(d3.curveBasis);
+            g.append('path').datum(curvePoints).attr('d', line)
+                .attr('fill', 'none')
+                .attr('stroke', isDark ? '#94a3b8' : '#64748b')
+                .attr('stroke-width', 1.5);
+
+            // SD boundary dashed lines (extend from bracket area through curve to baseline)
+            [-3, -2, -1, 1, 2, 3].forEach(function(sd) {
+                g.append('line')
+                    .attr('x1', xScale(sd)).attr('x2', xScale(sd))
+                    .attr('y1', bRow1 + 4).attr('y2', curveBase)
+                    .attr('stroke', isDark ? 'rgba(148,163,184,0.2)' : 'rgba(0,0,0,0.1)')
+                    .attr('stroke-dasharray', '3,3')
+                    .attr('stroke-width', 1);
+            });
+
+            // Mean line
+            g.append('line')
+                .attr('x1', xScale(0)).attr('x2', xScale(0))
+                .attr('y1', bRow4 + 4).attr('y2', curveBase)
+                .attr('stroke', isDark ? 'rgba(148,163,184,0.3)' : 'rgba(0,0,0,0.15)')
+                .attr('stroke-width', 1);
+
+            // μ at peak
+            g.append('text')
+                .attr('x', xScale(0) + 10).attr('y', yScale(gauss(0)) + 14)
+                .attr('text-anchor', 'start')
+                .attr('font-size', '16px').attr('font-weight', '600')
+                .attr('font-family', 'serif')
+                .attr('fill', isDark ? '#94a3b8' : '#64748b')
+                .text('μ');
+
+            // Baseline
+            g.append('line')
+                .attr('x1', 0).attr('x2', w)
+                .attr('y1', curveBase).attr('y2', curveBase)
+                .attr('stroke', isDark ? 'rgba(148,163,184,0.3)' : 'rgba(0,0,0,0.15)')
+                .attr('stroke-width', 1);
+
+            // ── 3. RECOMMENDATION ARROW BAR ──
+            var recZones = [
+                { x0: -4.5, x1: -3, label: 'CONSTRICCIÓN', bg: isDark ? 'rgba(248,113,113,0.25)' : 'rgba(220,38,38,0.15)', color: redC },
+                { x0: -3, x1: -2, label: 'AJUSTAR', bg: isDark ? 'rgba(96,165,250,0.18)' : 'rgba(37,99,235,0.12)', color: blueC },
+                { x0: -2, x1: 2, label: 'REPLICAR', bg: isDark ? 'rgba(74,222,128,0.2)' : 'rgba(22,163,74,0.12)', color: greenC },
+                { x0: 2, x1: 3, label: 'AJUSTAR', bg: isDark ? 'rgba(96,165,250,0.18)' : 'rgba(37,99,235,0.12)', color: blueC },
+                { x0: 3, x1: 4.5, label: 'CONSTRICCIÓN', bg: isDark ? 'rgba(248,113,113,0.25)' : 'rgba(220,38,38,0.15)', color: redC }
+            ];
+            recZones.forEach(function(rz) {
+                var rx = xScale(rz.x0);
+                var rw = xScale(rz.x1) - rx;
+                g.append('rect')
+                    .attr('x', rx).attr('y', arrowBarY)
+                    .attr('width', rw).attr('height', arrowBarH)
+                    .attr('rx', rz.x0 === -4.5 ? 4 : (rz.x1 === 4.5 ? 4 : 0))
+                    .attr('ry', rz.x0 === -4.5 ? 4 : (rz.x1 === 4.5 ? 4 : 0))
+                    .attr('fill', rz.bg);
+                if (rw > 30) {
+                    g.append('text')
+                        .attr('x', rx + rw / 2).attr('y', arrowBarY + arrowBarH / 2 + 3.5)
+                        .attr('text-anchor', 'middle')
+                        .attr('font-size', rz.label === 'REPLICAR' ? '9px' : '7px')
+                        .attr('font-weight', '700').attr('letter-spacing', '0.5px')
+                        .attr('font-family', 'Inter, sans-serif')
+                        .attr('fill', rz.color).text(rz.label);
+                }
+            });
+
+            // ── 4. AXIS LABELS ──
+            [-3, -2, -1, 0, 1, 2, 3].forEach(function(sd) {
+                var label = sd === 0 ? 'μ' : (sd > 0 ? '+' + sd : '' + sd) + 'SD';
+                g.append('text')
+                    .attr('x', xScale(sd)).attr('y', labelRowY)
+                    .attr('text-anchor', 'middle')
+                    .attr('font-size', '8px')
+                    .attr('font-family', 'Inter, sans-serif')
+                    .attr('fill', isDark ? '#64748b' : '#94a3b8')
+                    .text(label);
+            });
+            g.append('text').attr('x', xScale(-4.2)).attr('y', labelRowY)
+                .attr('text-anchor', 'middle').attr('font-size', '10px').attr('font-weight', '700')
+                .attr('font-family', 'Inter, sans-serif').attr('fill', redC).text('Valgo');
+            g.append('text').attr('x', xScale(4.2)).attr('y', labelRowY)
+                .attr('text-anchor', 'middle').attr('font-size', '10px').attr('font-weight', '700')
+                .attr('font-family', 'Inter, sans-serif').attr('fill', redC).text('Varo');
+
+            // ── 6. PATIENT MARKERS (diamonds on curve) ──
+            var markerColors = {
+                neutral: isDark ? '#4ade80' : '#16a34a',
+                normal: isDark ? '#60a5fa' : '#3b82f6',
+                deviant: isDark ? '#fbbf24' : '#c0540a',
+                aberrant: isDark ? '#f87171' : '#dc2626'
+            };
+            // Sort markers by SD position for layout
+            var sortedMarkers = markers.slice().sort(function(a, b) { return a.signedSD - b.signedSD; });
+            // Pre-compute positions — labels BELOW the recommendation bar to avoid bracket collisions
+            var markerPositions = sortedMarkers.map(function(m) {
+                var xPos = Math.max(-4.4, Math.min(4.4, m.signedSD));
+                var cx = xScale(xPos);
+                var cy = yScale(gauss(xPos)) - 10;
+                return { m: m, cx: cx, cy: cy, labelX: cx, labelY: markerLabelBaseY };
+            });
+            // Resolve horizontal collisions — spread labels when close
+            if (markerPositions.length >= 2) {
+                var minCX = markerPositions[0].cx, maxCX = markerPositions[markerPositions.length - 1].cx;
+                if (maxCX - minCX < 80) {
+                    var centerX = (minCX + maxCX) / 2;
+                    var spacing = 45;
+                    var count = markerPositions.length;
+                    var startX = centerX - (count - 1) * spacing / 2;
+                    for (var si = 0; si < count; si++) {
+                        markerPositions[si].labelX = startX + si * spacing;
+                    }
+                } else {
+                    // Pairwise check
+                    for (var pi = 1; pi < markerPositions.length; pi++) {
+                        var prev = markerPositions[pi - 1], curr = markerPositions[pi];
+                        if (Math.abs(curr.labelX - prev.labelX) < 42) {
+                            var mid = (prev.labelX + curr.labelX) / 2;
+                            prev.labelX = mid - 24;
+                            curr.labelX = mid + 24;
+                        }
+                    }
+                }
+            }
+            markerPositions.forEach(function(mp) {
+                var m = mp.m, cx = mp.cx, cy = mp.cy;
+                var color = markerColors[m.category] || (isDark ? '#94a3b8' : '#64748b');
+
+                var diamond = 'M ' + cx + ' ' + (cy - 7) +
+                    ' L ' + (cx + 5) + ' ' + cy +
+                    ' L ' + cx + ' ' + (cy + 7) +
+                    ' L ' + (cx - 5) + ' ' + cy + ' Z';
+
+                g.append('path').attr('d', diamond)
+                    .attr('fill', color).attr('opacity', 0.3)
+                    .attr('transform', 'scale(1.4)')
+                    .attr('transform-origin', cx + 'px ' + cy + 'px');
+                g.append('path').attr('d', diamond)
+                    .attr('fill', color)
+                    .attr('stroke', isDark ? '#1f2937' : '#ffffff')
+                    .attr('stroke-width', 1.5);
+                // Drop line from diamond to label
+                g.append('line').attr('x1', cx).attr('x2', mp.labelX)
+                    .attr('y1', cy + 7).attr('y2', mp.labelY - 8)
+                    .attr('stroke', color).attr('stroke-width', 0.8)
+                    .attr('stroke-dasharray', '2,2').attr('opacity', 0.4);
+
+                g.append('text').attr('x', mp.labelX).attr('y', mp.labelY)
+                    .attr('text-anchor', 'middle').attr('font-size', '9px')
+                    .attr('font-weight', '700').attr('font-family', 'Inter, sans-serif')
+                    .attr('fill', color).text(m.label);
+            });
+        }
+
+        function updateHirschmann(sex, mhkaInput, ldfa, mpta) {
+            var content = document.getElementById('hirsch-content');
+            var hint = document.getElementById('hirsch-sex-hint');
+
+            if (!sex) {
+                content.style.display = 'none';
+                hint.style.display = '';
+                return;
+            }
+
+            content.style.display = '';
+            hint.style.display = 'none';
+
+            var ref = HIRSCHMANN_REF[sex];
+
+            // Compute FMA and TMA from LDFA and MPTA
+            var fma = 180 - ldfa;
+            var tma = mpta;
+
+            // Classify FMA and TMA (always available)
+            var fmaClass = classifyNormality(fma, ref.FMA.mean, ref.FMA.sd);
+            fmaClass.angleName = 'FMA';
+            var tmaClass = classifyNormality(tma, ref.TMA.mean, ref.TMA.sd);
+            tmaClass.angleName = 'TMA';
+
+            // Update FMA row
+            document.getElementById('hirsch-fma-val').textContent = fma.toFixed(1) + '°';
+            var fmaBadge = document.getElementById('hirsch-fma-badge');
+            fmaBadge.textContent = fmaClass.label;
+            fmaBadge.className = 'norm-badge ' + fmaClass.category;
+            document.getElementById('hirsch-fma-detail').textContent = fmaClass.nSD.toFixed(1) + ' SD';
+
+            // Update TMA row
+            document.getElementById('hirsch-tma-val').textContent = tma.toFixed(1) + '°';
+            var tmaBadge = document.getElementById('hirsch-tma-badge');
+            tmaBadge.textContent = tmaClass.label;
+            tmaBadge.className = 'norm-badge ' + tmaClass.category;
+            document.getElementById('hirsch-tma-detail').textContent = tmaClass.nSD.toFixed(1) + ' SD';
+
+            // HKA classification (only if mHKA provided)
+            var categories = [fmaClass, tmaClass];
+            var hkaRow = document.getElementById('hirsch-hka-row');
+            var alertEl = document.getElementById('hirsch-alert');
+            var prevEl = document.getElementById('hirsch-prevalence');
+
+            if (mhkaInput !== '') {
+                var mhka = parseFloat(mhkaInput);
+                var hkaClass = classifyNormality(mhka, ref.HKA.mean, ref.HKA.sd);
+                hkaClass.angleName = 'HKA';
+                categories.push(hkaClass);
+
+                hkaRow.classList.remove('disabled');
+                document.getElementById('hirsch-hka-val').textContent = mhka.toFixed(1) + '°';
+                var hkaBadge = document.getElementById('hirsch-hka-badge');
+                hkaBadge.textContent = hkaClass.label;
+                hkaBadge.className = 'norm-badge ' + hkaClass.category;
+                document.getElementById('hirsch-hka-detail').textContent = hkaClass.nSD.toFixed(1) + ' SD';
+
+                // F5: HKA aberrant alert
+                var thresholds = HKA_ABERRANT[sex];
+                if (mhka < thresholds.varusBelow || mhka > thresholds.valgusAbove) {
+                    alertEl.classList.add('visible');
+                } else {
+                    alertEl.classList.remove('visible');
+                }
+
+                // F6: OA prevalence
+                var mhkaDeviation = mhka - 180;
+                var prevPct = getOAPrevalence(mhkaDeviation);
+                prevEl.style.display = '';
+                setPrevalenceText(prevEl, prevPct);
+            } else {
+                hkaRow.classList.add('disabled');
+                document.getElementById('hirsch-hka-val').textContent = '--';
+                var hkaBadgeReset = document.getElementById('hirsch-hka-badge');
+                hkaBadgeReset.textContent = 'Requiere mHKA';
+                hkaBadgeReset.className = 'norm-badge';
+                document.getElementById('hirsch-hka-detail').textContent = '';
+                alertEl.classList.remove('visible');
+                prevEl.style.display = 'none';
+            }
+
+            // Build chart markers with signed SD values
+            // Convention: negative = valgus (left), positive = varus (right)
+            // Negate because higher angle = valgus but chart left = negative
+            var chartMarkers = [];
+            var fmaSignedSD = (ref.FMA.mean - fma) / ref.FMA.sd;
+            var tmaSignedSD = (ref.TMA.mean - tma) / ref.TMA.sd;
+            chartMarkers.push({ label: 'FMA', signedSD: fmaSignedSD, category: fmaClass.category });
+            chartMarkers.push({ label: 'TMA', signedSD: tmaSignedSD, category: tmaClass.category });
+
+            var hasHKA = mhkaInput !== '';
+            if (hasHKA) {
+                var mhkaVal = parseFloat(mhkaInput);
+                var hkaSignedSD = (ref.HKA.mean - mhkaVal) / ref.HKA.sd;
+                chartMarkers.push({ label: 'HKA', signedSD: hkaSignedSD, category: categories[categories.length - 1].category });
+            }
+
+            // Render bell curve chart
+            try {
+                renderHirschmannChart(chartMarkers, hasHKA);
+            } catch (e) {
+                console.warn('Hirschmann chart error:', e.message);
+                var fb = document.getElementById('hirsch-chart-fallback');
+                if (fb) fb.classList.add('visible');
+            }
+
+            // F3: Combined classification (worst-case among all angles)
+            var combined = getWorstCategory(categories);
+            var combinedBadge = document.getElementById('hirsch-combined-badge');
+            combinedBadge.textContent = combined.label;
+            combinedBadge.className = 'norm-badge ' + combined.category;
+
+            // Explain which angle(s) determined the combined result
+            var combinedExplain = document.getElementById('hirsch-combined-explain');
+            var worstAngles = [];
+            for (var ci = 0; ci < categories.length; ci++) {
+                if (categories[ci].category === combined.category) {
+                    worstAngles.push(categories[ci].angleName || '');
+                }
+            }
+            var validAngles = worstAngles.filter(function(a) { return a; });
+            if (validAngles.length === categories.length) {
+                combinedExplain.textContent = '(todos los ángulos)';
+            } else if (validAngles.length > 0) {
+                combinedExplain.textContent = '(determinada por ' + validAngles.join(' y ') + ')';
+            } else {
+                combinedExplain.textContent = '';
+            }
+
+            // F4: Surgical recommendation with clinical detail
+            var recEl = document.getElementById('hirsch-recommendation');
+            var recTerm = document.getElementById('hirsch-rec-term');
+            var recText = document.getElementById('hirsch-rec-text');
+
+            recEl.className = 'hirschmann-recommendation';
+            if (combined.category === 'neutral' || combined.category === 'normal') {
+                recEl.classList.add('replicate');
+                recTerm.textContent = 'REPLICAR';
+                recText.textContent = 'El alineamiento nativo del paciente se encuentra dentro de los límites estadísticos normales. En la artroplastia, se recomienda restaurar (replicar) este fenotipo constitucional. La alineación mecánica clásica a 0° de HKA no es necesaria y podría generar una línea articular no fisiológica, alterando la cinemática y la distribución de cargas.';
+            } else if (combined.category === 'deviant') {
+                recEl.classList.add('adjust');
+                recTerm.textContent = 'AJUSTAR';
+                recText.textContent = 'El alineamiento nativo se desvía de la normalidad estadística (>2 SD). Replicar exactamente este fenotipo podría sobrecargar un compartimento y acelerar el desgaste del polietileno. Se recomienda ajustar el objetivo quirúrgico hacia el límite de la zona normal (±2 SD), preservando parte de la oblicuidad articular constitucional sin llegar a la corrección completa a eje mecánico neutro.';
+            } else {
+                recEl.classList.add('constraint');
+                recTerm.textContent = 'CONSTRICCIÓN';
+                recText.textContent = 'El alineamiento nativo es estadísticamente aberrante (>3 SD). Restaurarlo supondría un riesgo inaceptable de inestabilidad, sobrecarga asimétrica y fallo precoz del implante. Se recomienda corregir hacia la zona segura (±2–3 SD), empleando implantes con mayor grado de constricción si es necesario para compensar el desequilibrio ligamentoso residual. No usar el fenotipo nativo como objetivo de alineación.';
+            }
         }
 
         // Clinical Data for each CPAK type
@@ -1911,6 +2759,9 @@
 
             // Update wear analysis panel
             updateWearAnalysis(mhkaInput, aHKA);
+
+            // Update Hirschmann 2024 normality classification
+            updateHirschmann(selectedSex, mhkaInput, ldfa, mpta);
         }
 
         // ─────────────────────────────────────────────
@@ -2265,6 +3116,10 @@
             document.getElementById('input-mhka').value = '';
             document.getElementById('input-ldfa').value = '87';
             document.getElementById('input-mpta').value = '87';
+            selectedSex = null;
+            document.querySelectorAll('#sex-toggle button').forEach(function(btn) {
+                btn.classList.remove('active');
+            });
             calculateAndUpdate();
         }
 
@@ -2284,6 +3139,7 @@
             if (p.has('ldfa')) { document.getElementById('input-ldfa').value = p.get('ldfa'); changed = true; }
             if (p.has('mpta')) { document.getElementById('input-mpta').value = p.get('mpta'); changed = true; }
             if (p.has('mhka')) { document.getElementById('input-mhka').value = p.get('mhka'); changed = true; }
+            if (p.has('sex')) { selectSex(p.get('sex').toUpperCase() === 'F' ? 'F' : 'M'); changed = true; }
             if (changed) calculateAndUpdate();
         })();
 
@@ -2335,10 +3191,9 @@
             const activeCell = document.querySelector('.matrix-cell.active');
             const activeType = activeCell ? activeCell.dataset.type : null;
             if (activeType) highlightType(activeType); else initializeMatrix();
-            // Re-render D3 wear gauge with new theme
+            // Re-render D3 charts (wear gauge + Hirschmann) with new theme
             try {
-                var mhkaVal = document.getElementById('input-mhka').value;
-                if (mhkaVal && typeof calculateAndUpdate === 'function') calculateAndUpdate();
+                if (typeof calculateAndUpdate === 'function') calculateAndUpdate();
             } catch (e) { /* ignore */ }
         });
 
@@ -2351,6 +3206,9 @@
         });
 
         initTheme();
+
+        // Re-render D3 charts after theme is applied (theme init runs after first calculateAndUpdate)
+        try { calculateAndUpdate(); } catch (e) { /* ignore */ }
     </script>
 
 </body>
