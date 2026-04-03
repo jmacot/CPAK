@@ -347,26 +347,20 @@
             gap: 12px;
         }
 
-        .btn-reset {
-            display: block;
-            width: 100%;
-            padding: 9px;
-            margin-top: 10px;
-            background: none;
-            border: 1.5px dashed var(--border);
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-family: 'Inter', Arial, sans-serif;
-            transition: all 0.2s;
+        /* ── BIN-BUTTON (restablecer) ── */
+        .bin-button {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            width: 34px; height: 34px; border-radius: 8px;
+            background-color: rgb(255, 95, 95); cursor: pointer;
+            border: 1.5px solid rgb(255, 201, 201); transition: all 0.3s;
+            flex-shrink: 0; padding: 0;
         }
-        .btn-reset:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: var(--accent-light);
-        }
+        .bin-button .bin-top { width: 13px; transform-origin: right; transition: transform 0.3s; }
+        .bin-button .bin-bottom { width: 11px; }
+        .bin-button .bin-top, .bin-button .bin-bottom { stroke: white; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .bin-button:hover .bin-top { transform: rotate(45deg); }
+        .bin-button:hover { background-color: rgb(220, 38, 38); border-color: rgb(252, 165, 165); }
+        .bin-button:active { transform: scale(0.9); }
 
         /* ── CLINICAL PANEL ── */
         .cpak-type-box {
@@ -1138,28 +1132,73 @@
         .glossary-content .gval { font-weight: 600; color: var(--accent); }
         [data-theme="dark"] .glossary-content { background: #283244; }
 
-        /* ── SEX SELECTOR ── */
+        /* ── LAT-SWITCH (toggle sexo) ── */
         .sex-toggle-group { margin-bottom: 14px; }
         .sex-toggle-group > label {
             font-size: 11px; font-weight: 700; color: var(--text-muted);
             text-transform: uppercase; letter-spacing: 0.5px;
             margin-bottom: 5px; display: block;
         }
-        .sex-toggle {
-            display: flex; background: var(--surface2);
-            border-radius: 10px; padding: 3px; gap: 2px;
+        .sex-row {
+            display: flex; align-items: center; gap: 10px;
         }
-        .sex-toggle button {
-            flex: 1; padding: 8px 12px; border: none; border-radius: 8px;
-            background: transparent; font-family: 'Inter', Arial, sans-serif;
-            font-size: 13px; font-weight: 600; color: var(--text-muted);
-            cursor: pointer; transition: all 0.2s;
+        label.lat-switch {
+            --_switch-bg: var(--accent-light);
+            --_slider-bg: var(--accent);
+            --_slider-bg-on: var(--accent-hover);
+            --_padding: 3px;
+            width: fit-content;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            position: relative;
+            isolation: isolate;
+            border-radius: 999px;
+            cursor: pointer;
+            user-select: none;
         }
-        .sex-toggle button:hover { color: var(--text); }
-        .sex-toggle button.active {
-            background: var(--surface); color: var(--text);
-            box-shadow: var(--shadow-sm);
+        .lat-switch input { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+        .lat-switch > span {
+            display: grid; place-content: center;
+            padding: 12px 14px;
+            font-size: 12px; font-weight: 600; font-family: 'Inter', sans-serif;
+            color: var(--accent); white-space: nowrap;
+            transition: opacity 0.3s ease-in-out 0.15s;
         }
+        .lat-switch::before, .lat-switch::after {
+            content: ""; position: absolute; border-radius: inherit;
+        }
+        .lat-switch::after { background: var(--_switch-bg); inset: 0; z-index: -2; }
+        .lat-switch::before {
+            background: var(--_slider-bg); z-index: -1;
+            inset: var(--_padding) 50% var(--_padding) var(--_padding);
+            transition: inset 0.5s cubic-bezier(0.47, 1.64, 0.41, 0.8), background-color 0.5s;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,0.15), 0 1px rgba(255,255,255,0.2);
+        }
+        .lat-switch:has(input:checked)::before {
+            background: var(--_slider-bg-on);
+            inset: var(--_padding) var(--_padding) var(--_padding) 50%;
+        }
+        .lat-switch > span:last-of-type,
+        .lat-switch > input:checked + span:first-of-type { opacity: 0.5; }
+        .lat-switch > input:checked ~ span:last-of-type { opacity: 1; color: white; }
+        .lat-switch > span:first-of-type { opacity: 1; color: white; }
+        .lat-switch:has(input:checked) > span:first-of-type { opacity: 0.5; color: var(--accent); }
+        .lat-switch:has(input:not(:checked)):hover::before {
+            inset: var(--_padding) 45% var(--_padding) var(--_padding);
+        }
+        .lat-switch:has(input:checked):hover::before {
+            inset: var(--_padding) var(--_padding) var(--_padding) 45%;
+        }
+        .lat-switch:focus-within::after { inset: -2px; }
+        [data-theme="dark"] .lat-switch {
+            --_switch-bg: rgba(147,197,253,0.15);
+            --_slider-bg: var(--accent);
+            --_slider-bg-on: #60a5fa;
+        }
+        [data-theme="dark"] .lat-switch > span { color: var(--accent); }
+        [data-theme="dark"] .lat-switch > span:first-of-type { color: white; }
+        [data-theme="dark"] .lat-switch:has(input:checked) > span:first-of-type { color: var(--accent); }
+        [data-theme="dark"] .lat-switch:has(input:checked) > span:last-of-type { color: white; }
 
         /* ── HIRSCHMANN 2024 CLASSIFICATION ── */
         .hirschmann-header {
@@ -1517,13 +1556,18 @@
 
                     <div class="sex-toggle-group">
                         <label>Sexo del paciente</label>
-                        <div class="sex-toggle" id="sex-toggle">
-                            <button type="button" data-sex="M" onclick="selectSex('M')">Varón</button>
-                            <button type="button" data-sex="F" onclick="selectSex('F')">Mujer</button>
+                        <div class="sex-row">
+                            <label class="lat-switch">
+                                <input type="checkbox" id="sexo-toggle" onchange="updateSexFromToggle()">
+                                <span>Varón</span>
+                                <span>Mujer</span>
+                            </label>
+                            <button class="bin-button" onclick="resetInputs()" title="Restablecer">
+                                <svg class="bin-top" viewBox="0 0 39 7"><line x1="5" y1="2" x2="33" y2="2"/><line x1="20" y1="0" x2="20" y2="2"/></svg>
+                                <svg class="bin-bottom" viewBox="0 0 33 39"><path d="M2 2h29l-3 34H5z"/></svg>
+                            </button>
                         </div>
                     </div>
-
-                    <button class="btn-reset" onclick="resetInputs()">↺ Restablecer</button>
                 </div>
 
                 <!-- Telemetría para evolutivo -->
@@ -1962,11 +2006,8 @@
 
         let selectedSex = null;
 
-        function selectSex(sex) {
-            selectedSex = sex;
-            document.querySelectorAll('#sex-toggle button').forEach(function(btn) {
-                btn.classList.toggle('active', btn.dataset.sex === sex);
-            });
+        function updateSexFromToggle() {
+            selectedSex = document.getElementById('sexo-toggle').checked ? 'F' : 'M';
             calculateAndUpdate();
         }
 
@@ -3172,9 +3213,7 @@
             document.getElementById('input-ldfa').value = '87';
             document.getElementById('input-mpta').value = '87';
             selectedSex = null;
-            document.querySelectorAll('#sex-toggle button').forEach(function(btn) {
-                btn.classList.remove('active');
-            });
+            document.getElementById('sexo-toggle').checked = false;
             calculateAndUpdate();
         }
 
