@@ -3242,7 +3242,7 @@
         skyCheck.addEventListener('change', function() {
       var isDark = skyCheck.checked;
       applyTheme(isDark);
-            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
             localStorage.setItem('theme-date', new Date().toDateString());
             // Re-render matrix SVGs with new theme colors
             const activeCell = document.querySelector('.matrix-cell.active');
