@@ -1077,23 +1077,38 @@
         }
         /* ── BTN-COPY ── */
         .btn-copy {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
+            --cp-bg: var(--accent);
+            --cp-hover: var(--accent-hover);
+            display: inline-flex; align-items: center; justify-content: flex-start;
+            border: none; border-radius: 8px; overflow: hidden;
+            cursor: pointer; box-shadow: var(--shadow-sm);
+            height: 32px; padding: 0; flex-shrink: 0;
+            transition: box-shadow 0.2s;
             font-family: 'Inter', sans-serif;
-            cursor: pointer;
-            transition: all 0.2s;
-            border-width: 1.5px;
-            border-style: solid;
-            background: transparent;
         }
-        .btn-copy svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
-        .btn-copy.blue { color: var(--accent); border-color: var(--accent); }
-        .btn-copy.blue:hover { background: var(--accent); color: white; }
+        .btn-copy:hover { box-shadow: var(--shadow); }
+        .btn-copy:active { transform: scale(0.96); }
+        .btn-copy .cp-text {
+            height: 100%; display: flex; align-items: center; justify-content: center;
+            padding: 0 12px; font-size: 11px; font-weight: 700;
+            color: white; background: var(--cp-bg);
+            transition: background 0.2s;
+        }
+        .btn-copy .cp-icon {
+            height: 100%; display: flex; align-items: center; justify-content: center;
+            width: 32px; color: white; background: var(--cp-hover);
+            transition: background 0.2s;
+        }
+        .btn-copy .cp-icon svg { width: 14px; height: 14px; }
+        .btn-copy .cp-check { display: none; }
+        .btn-copy:hover .cp-text { filter: brightness(0.9); }
+        .btn-copy:hover .cp-icon { filter: brightness(0.85); }
+        .btn-copy.copied .cp-clipboard { display: none; }
+        .btn-copy.copied .cp-check { display: block; }
+        .btn-copy.copied .cp-text { background: var(--green); }
+        .btn-copy.copied .cp-icon { background: #15803d; }
+        .btn-copy.blue { --cp-bg: #7c3aed; --cp-hover: #6d28d9; }
+        [data-theme="dark"] .btn-copy.blue { --cp-bg: #a78bfa; --cp-hover: #8b5cf6; }
 
         /* ── GLOSARIO (toggle) ── */
         .glossary-toggle {
@@ -1574,9 +1589,12 @@
                 <div class="telemetria-block" id="telemetria-block">
                     <div class="telemetria-header">
                         <span class="telemetria-title">Telemetría para evolutivo</span>
-                        <button class="btn-copy blue" onclick="copiarTelemetria()">
-                            <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-                            Copiar
+                        <button class="btn-copy blue" onclick="copiarTelemetria(this)">
+                            <span class="cp-text">Copiar</span>
+                            <span class="cp-icon">
+                                <svg class="cp-clipboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                <svg class="cp-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            </span>
                         </button>
                     </div>
                     <pre class="telemetria-pre" id="telemetria-text">Telemetría:
@@ -3195,10 +3213,24 @@
             document.getElementById('telemetria-text').textContent = lines.join('\n');
         }
 
-        function copiarTelemetria() {
+        function copiarTelemetria(btn) {
             const text = document.getElementById('telemetria-text').textContent;
             if (!text) return;
             navigator.clipboard.writeText(text).then(() => mostrarToast('Telemetría copiada'));
+            showCopied(btn);
+        }
+
+        function showCopied(btn) {
+            if (!btn) return;
+            btn.classList.add('copied');
+            var txt = btn.querySelector('.cp-text');
+            var orig = txt ? txt.textContent : '';
+            if (txt) txt.textContent = 'Copiado';
+            clearTimeout(btn._cpTimer);
+            btn._cpTimer = setTimeout(function() {
+                btn.classList.remove('copied');
+                if (txt) txt.textContent = orig;
+            }, 1800);
         }
 
         function toggleGlossary() {
