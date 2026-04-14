@@ -1338,6 +1338,37 @@
             font-weight: 600; line-height: 1.5;
         }
         .hirschmann-alert.visible { display: block; animation: slideReveal 0.4s ease-out; }
+        .hirsch-notice {
+            display: none; padding: 14px 16px; border-radius: 10px;
+            margin-bottom: 12px; font-size: 12.5px; color: var(--text); line-height: 1.6;
+            border: 1px solid transparent;
+        }
+        .hirsch-notice.visible { display: block; animation: slideReveal 0.4s ease-out; }
+        .hirsch-notice .hn-title {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 13px; font-weight: 700; letter-spacing: 0.02em;
+            margin-bottom: 8px;
+        }
+        .hirsch-notice .hn-icon { font-size: 15px; line-height: 1; }
+        .hirsch-notice .hn-chips {
+            display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 10px;
+        }
+        .hirsch-notice .hn-chip {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 3px 9px; border-radius: 999px;
+            font-size: 11px; font-weight: 600; font-variant-numeric: tabular-nums;
+            background: var(--surface); border: 1px solid var(--border);
+        }
+        .hirsch-notice .hn-chip .chip-k { color: var(--text-light); font-weight: 500; }
+        .hirsch-notice .hn-body { color: var(--text-muted); }
+        .hirsch-notice.wear { background: rgba(14,165,233,0.07); border-color: rgba(14,165,233,0.28); }
+        .hirsch-notice.wear .hn-title { color: #0284c7; }
+        [data-theme="dark"] .hirsch-notice.wear { background: rgba(56,189,248,0.08); border-color: rgba(56,189,248,0.28); }
+        [data-theme="dark"] .hirsch-notice.wear .hn-title { color: #38bdf8; }
+        .hirsch-notice.uni { background: rgba(22,163,74,0.07); border-color: rgba(22,163,74,0.28); }
+        .hirsch-notice.uni .hn-title { color: var(--green); }
+        [data-theme="dark"] .hirsch-notice.uni { background: rgba(74,222,128,0.08); border-color: rgba(74,222,128,0.28); }
+        .angle-detail .meas-note { display:block; font-size: 10px; color: var(--text-light); font-style: italic; margin-top: 2px; }
         .hirschmann-prevalence {
             font-size: 12px; color: var(--text-muted); line-height: 1.5;
             padding: 8px 12px; background: var(--surface2);
@@ -1865,6 +1896,9 @@
                     ⚠️ HKA en rango aberrante. Según Hirschmann 2024, este alineamiento no debería usarse como objetivo de alineamiento personalizado.
                 </div>
 
+                <div class="hirsch-notice wear" id="hirsch-wear-notice"></div>
+                <div class="hirsch-notice uni" id="hirsch-uni-hint"></div>
+
                 <div class="hirschmann-prevalence" id="hirsch-prevalence" style="display:none;"></div>
 
                 <div class="hirschmann-ref-footer">
@@ -2029,7 +2063,7 @@
             F: { varusBelow: 172.6, valgusAbove: 189.4 }
         };
 
-        let selectedSex = null;
+        let selectedSex = 'M';
 
         function updateSexFromToggle() {
             selectedSex = document.getElementById('sexo-toggle').checked ? 'F' : 'M';
@@ -2394,13 +2428,92 @@
             });
         }
 
-        function updateHirschmann(sex, mhkaInput, ldfa, mpta) {
+        function setDetailWithMeasured(el, sdText, mode, measLabel) {
+            while (el.firstChild) el.removeChild(el.firstChild);
+            el.appendChild(document.createTextNode(sdText + ' · '));
+            var em = document.createElement('em');
+            em.textContent = mode;
+            el.appendChild(em);
+            if (measLabel) {
+                var span = document.createElement('span');
+                span.className = 'meas-note';
+                span.textContent = measLabel;
+                el.appendChild(span);
+            }
+        }
+
+        function buildNoticeChip(key, value) {
+            var chip = document.createElement('span');
+            chip.className = 'hn-chip';
+            var k = document.createElement('span');
+            k.className = 'chip-k';
+            k.textContent = key;
+            chip.appendChild(k);
+            chip.appendChild(document.createTextNode(' ' + value));
+            return chip;
+        }
+
+        function buildNoticeHeader(el, icon, titleText) {
+            while (el.firstChild) el.removeChild(el.firstChild);
+            var title = document.createElement('div');
+            title.className = 'hn-title';
+            var ic = document.createElement('span');
+            ic.className = 'hn-icon';
+            ic.textContent = icon;
+            title.appendChild(ic);
+            title.appendChild(document.createTextNode(titleText));
+            el.appendChild(title);
+            return title;
+        }
+
+        function setWearNoticeText(el, jlca, femurPct, tibiaPct) {
+            buildNoticeHeader(el, '⚠', 'Parte de la deformidad es por desgaste, no constitucional');
+            var direction = jlca < 0 ? 'medial' : 'lateral';
+
+            var body = document.createElement('div');
+            body.className = 'hn-body';
+            body.textContent = 'El JLCA de ' + jlca.toFixed(1) + '° indica desgaste del cartílago ' + direction + '. Ese desgaste deforma los ángulos medidos y no refleja la anatomía real del paciente. Por eso la clasificación se hace sobre los ángulos nativos estimados (descontando el desgaste): es lo que hay que comparar con Hirschmann 2024, que mide rodillas sanas.';
+            el.appendChild(body);
+
+            var detail = document.createElement('div');
+            detail.className = 'hn-body';
+            detail.style.marginTop = '8px';
+            detail.style.fontSize = '11px';
+            detail.style.color = 'var(--text-light)';
+            detail.textContent = 'Desgaste atribuido: ' + femurPct + '% al fémur, ' + tibiaPct + '% a la tibia (proporcional a la desviación de cada ángulo vs media poblacional).';
+            el.appendChild(detail);
+
+            var method = document.createElement('div');
+            method.className = 'hn-body';
+            method.style.marginTop = '4px';
+            method.style.fontSize = '10px';
+            method.style.color = 'var(--text-light)';
+            method.style.fontStyle = 'italic';
+            method.textContent = 'Método: aHKA = mHKA − JLCA (MacDessi et al., Bone Joint J 2021).';
+            el.appendChild(method);
+        }
+
+        function setUniHintText(el, jlca) {
+            buildNoticeHeader(el, '💡', 'Posible candidata a UNI (prótesis unicompartimental)');
+            var direction = jlca < 0 ? 'medial' : 'lateral';
+
+            var body = document.createElement('div');
+            body.className = 'hn-body';
+            body.textContent = 'El alineamiento nativo es normal y el desgaste está confinado al compartimento ' + direction + '. Antes de indicar PTR con constricción, valora UNI si el ligamento colateral contralateral está íntegro y no hay afectación patelofemoral ni lateral significativa.';
+            el.appendChild(body);
+        }
+
+        function updateHirschmann(sex, mhkaInput, ldfa, mpta, jlcaInput) {
             var content = document.getElementById('hirsch-content');
             var hint = document.getElementById('hirsch-sex-hint');
+            var wearNotice = document.getElementById('hirsch-wear-notice');
+            var uniHint = document.getElementById('hirsch-uni-hint');
 
             if (!sex) {
                 content.style.display = 'none';
                 hint.style.display = '';
+                if (wearNotice) wearNotice.classList.remove('visible');
+                if (uniHint) uniHint.classList.remove('visible');
                 return;
             }
 
@@ -2408,30 +2521,69 @@
             hint.style.display = 'none';
 
             var ref = HIRSCHMANN_REF[sex];
+            var ldfaMean = 180 - ref.FMA.mean;
+            var mptaMean = ref.TMA.mean;
 
-            // Compute FMA and TMA from LDFA and MPTA
-            var fma = 180 - ldfa;
-            var tma = mpta;
+            // JLCA-based constitutional correction (heuristic: redistribute JLCA proportional to deviation from population mean).
+            // Hirschmann 2024 normative data are from non-OA knees; with significant JLCA (|JLCA|≥2°) the measured LDFA/MPTA
+            // are partially contaminated by bone/cartilage wear. Wear is attributed to the angle that deviates more from the
+            // population mean (MacDessi 2021; Hirschmann 2024 — non-arthritic cohort).
+            var hasJLCA = (typeof jlcaInput === 'number' && !isNaN(jlcaInput));
+            var WEAR_THRESHOLD = 2.0;
+            var wearSignificant = hasJLCA && Math.abs(jlcaInput) >= WEAR_THRESHOLD;
 
-            // Classify FMA and TMA (always available)
-            var fmaClass = classifyNormality(fma, ref.FMA.mean, ref.FMA.sd);
+            var aLDFA = ldfa, aMPTA = mpta, femurShare = 0.5, tibiaShare = 0.5;
+            if (wearSignificant) {
+                var devL = ldfa - ldfaMean;
+                var devM = mpta - mptaMean;
+                var absL = Math.abs(devL);
+                var absM = Math.abs(devM);
+                if (absL + absM < 0.5) {
+                    femurShare = 0.5; tibiaShare = 0.5;
+                } else {
+                    femurShare = absL / (absL + absM);
+                    tibiaShare = 1 - femurShare;
+                }
+                var jMag = Math.abs(jlcaInput);
+                aLDFA = ldfa - Math.sign(devL) * femurShare * jMag;
+                aMPTA = mpta - Math.sign(devM) * tibiaShare * jMag;
+            }
+
+            var fmaMeasured = 180 - ldfa;
+            var tmaMeasured = mpta;
+            var fmaClassified = 180 - aLDFA;
+            var tmaClassified = aMPTA;
+
+            var fmaClass = classifyNormality(fmaClassified, ref.FMA.mean, ref.FMA.sd);
             fmaClass.angleName = 'FMA';
-            var tmaClass = classifyNormality(tma, ref.TMA.mean, ref.TMA.sd);
+            var tmaClass = classifyNormality(tmaClassified, ref.TMA.mean, ref.TMA.sd);
             tmaClass.angleName = 'TMA';
 
-            // Update FMA row
-            document.getElementById('hirsch-fma-val').textContent = fma.toFixed(1) + '°';
+            // FMA row
+            document.getElementById('hirsch-fma-val').textContent = fmaClassified.toFixed(1) + '°';
             var fmaBadge = document.getElementById('hirsch-fma-badge');
             fmaBadge.textContent = fmaClass.label;
             fmaBadge.className = 'norm-badge ' + fmaClass.category;
-            document.getElementById('hirsch-fma-detail').textContent = fmaClass.nSD.toFixed(1) + ' SD';
+            var fmaDetail = document.getElementById('hirsch-fma-detail');
+            if (wearSignificant) {
+                setDetailWithMeasured(fmaDetail, fmaClass.nSD.toFixed(1) + ' SD', 'constitucional',
+                    'medido ' + fmaMeasured.toFixed(1) + '° (LDFA ' + ldfa.toFixed(1) + '°)');
+            } else {
+                fmaDetail.textContent = fmaClass.nSD.toFixed(1) + ' SD';
+            }
 
-            // Update TMA row
-            document.getElementById('hirsch-tma-val').textContent = tma.toFixed(1) + '°';
+            // TMA row
+            document.getElementById('hirsch-tma-val').textContent = tmaClassified.toFixed(1) + '°';
             var tmaBadge = document.getElementById('hirsch-tma-badge');
             tmaBadge.textContent = tmaClass.label;
             tmaBadge.className = 'norm-badge ' + tmaClass.category;
-            document.getElementById('hirsch-tma-detail').textContent = tmaClass.nSD.toFixed(1) + ' SD';
+            var tmaDetail = document.getElementById('hirsch-tma-detail');
+            if (wearSignificant) {
+                setDetailWithMeasured(tmaDetail, tmaClass.nSD.toFixed(1) + ' SD', 'constitucional',
+                    'medido ' + tmaMeasured.toFixed(1) + '° (MPTA ' + mpta.toFixed(1) + '°)');
+            } else {
+                tmaDetail.textContent = tmaClass.nSD.toFixed(1) + ' SD';
+            }
 
             // HKA classification (only if mHKA provided)
             var categories = [fmaClass, tmaClass];
@@ -2439,20 +2591,29 @@
             var alertEl = document.getElementById('hirsch-alert');
             var prevEl = document.getElementById('hirsch-prevalence');
 
+            var hkaClassifiedValue = null;
             if (mhkaInput !== '') {
                 var mhka = parseFloat(mhkaInput);
-                var hkaClass = classifyNormality(mhka, ref.HKA.mean, ref.HKA.sd);
+                // When wear is significant, classify the CONSTITUTIONAL HKA (aHKA shifted to 180° scale).
+                hkaClassifiedValue = wearSignificant ? (180 + (aMPTA - aLDFA)) : mhka;
+                var hkaClass = classifyNormality(hkaClassifiedValue, ref.HKA.mean, ref.HKA.sd);
                 hkaClass.angleName = 'HKA';
                 categories.push(hkaClass);
 
                 hkaRow.classList.remove('disabled');
-                document.getElementById('hirsch-hka-val').textContent = mhka.toFixed(1) + '°';
+                document.getElementById('hirsch-hka-val').textContent = hkaClassifiedValue.toFixed(1) + '°';
                 var hkaBadge = document.getElementById('hirsch-hka-badge');
                 hkaBadge.textContent = hkaClass.label;
                 hkaBadge.className = 'norm-badge ' + hkaClass.category;
-                document.getElementById('hirsch-hka-detail').textContent = hkaClass.nSD.toFixed(1) + ' SD';
+                var hkaDetail = document.getElementById('hirsch-hka-detail');
+                if (wearSignificant) {
+                    setDetailWithMeasured(hkaDetail, hkaClass.nSD.toFixed(1) + ' SD', 'aHKA constitucional',
+                        'mHKA medido ' + mhka.toFixed(1) + '°');
+                } else {
+                    hkaDetail.textContent = hkaClass.nSD.toFixed(1) + ' SD';
+                }
 
-                // F5: HKA aberrant alert
+                // F5: mHKA aberrant alert (based on measured — reflects what the patient actually has)
                 var thresholds = HKA_ABERRANT[sex];
                 if (mhka < thresholds.varusBelow || mhka > thresholds.valgusAbove) {
                     alertEl.classList.add('visible');
@@ -2460,7 +2621,6 @@
                     alertEl.classList.remove('visible');
                 }
 
-                // F6: OA prevalence
                 var mhkaDeviation = mhka - 180;
                 var prevPct = getOAPrevalence(mhkaDeviation);
                 prevEl.style.display = '';
@@ -2476,19 +2636,25 @@
                 prevEl.style.display = 'none';
             }
 
-            // Build chart markers with signed SD values
-            // Convention: negative = valgus (left), positive = varus (right)
-            // Negate because higher angle = valgus but chart left = negative
+            // Wear notice banner
+            if (wearSignificant) {
+                var pctF = Math.round(femurShare * 100);
+                setWearNoticeText(wearNotice, jlcaInput, pctF, 100 - pctF);
+                wearNotice.classList.add('visible');
+            } else {
+                wearNotice.classList.remove('visible');
+            }
+
+            // Chart markers use classified (constitutional) angles when correction applies, for consistency with badges
             var chartMarkers = [];
-            var fmaSignedSD = (ref.FMA.mean - fma) / ref.FMA.sd;
-            var tmaSignedSD = (ref.TMA.mean - tma) / ref.TMA.sd;
+            var fmaSignedSD = (ref.FMA.mean - fmaClassified) / ref.FMA.sd;
+            var tmaSignedSD = (ref.TMA.mean - tmaClassified) / ref.TMA.sd;
             chartMarkers.push({ label: 'FMA', signedSD: fmaSignedSD, category: fmaClass.category });
             chartMarkers.push({ label: 'TMA', signedSD: tmaSignedSD, category: tmaClass.category });
 
             var hasHKA = mhkaInput !== '';
             if (hasHKA) {
-                var mhkaVal = parseFloat(mhkaInput);
-                var hkaSignedSD = (ref.HKA.mean - mhkaVal) / ref.HKA.sd;
+                var hkaSignedSD = (ref.HKA.mean - hkaClassifiedValue) / ref.HKA.sd;
                 chartMarkers.push({ label: 'HKA', signedSD: hkaSignedSD, category: categories[categories.length - 1].category });
             }
 
@@ -2542,6 +2708,14 @@
                 recEl.classList.add('constraint');
                 recTerm.textContent = 'CONSTRICCIÓN';
                 recText.textContent = 'El alineamiento nativo es estadísticamente aberrante (>3 SD). Restaurarlo supondría un riesgo inaceptable de inestabilidad, sobrecarga asimétrica y fallo precoz del implante. Se recomienda corregir hacia la zona segura (±2–3 SD), empleando implantes con mayor grado de constricción si es necesario para compensar el desequilibrio ligamentoso residual. No usar el fenotipo nativo como objetivo de alineación.';
+            }
+
+            // UNI hint: wear significant + constitutional alignment within ±2 SD (neutral/normal) → monocompartmental pattern
+            if (wearSignificant && (combined.category === 'neutral' || combined.category === 'normal')) {
+                setUniHintText(uniHint, jlcaInput);
+                uniHint.classList.add('visible');
+            } else {
+                uniHint.classList.remove('visible');
             }
         }
 
@@ -2833,6 +3007,7 @@
             document.getElementById('result-jlo-label').textContent = jloLabel;
 
             // Update mHKA display and calculate JLCA if mHKA is provided
+            let jlcaForHirschmann = null;
             if (mhkaInput !== '') {
                 const mhka = parseFloat(mhkaInput);
                 const mhkaDeviation = mhka - 180;
@@ -2849,6 +3024,7 @@
 
                 // JLCA
                 const jlca = mhkaDeviation - aHKA;
+                jlcaForHirschmann = jlca;
 
                 const jlcaEl = document.getElementById('result-jlca');
                 jlcaEl.textContent = `${jlca > 0 ? '+' : ''}${jlca.toFixed(1)}°`;
@@ -2882,7 +3058,7 @@
             updateWearAnalysis(mhkaInput, aHKA);
 
             // Update Hirschmann 2024 normality classification
-            updateHirschmann(selectedSex, mhkaInput, ldfa, mpta);
+            updateHirschmann(selectedSex, mhkaInput, ldfa, mpta, jlcaForHirschmann);
         }
 
         // ─────────────────────────────────────────────
@@ -3251,7 +3427,7 @@
             document.getElementById('input-mhka').value = '';
             document.getElementById('input-ldfa').value = '87';
             document.getElementById('input-mpta').value = '87';
-            selectedSex = null;
+            selectedSex = 'M';
             document.getElementById('sexo-toggle').checked = false;
             calculateAndUpdate();
         }
@@ -3272,7 +3448,12 @@
             if (p.has('ldfa')) { document.getElementById('input-ldfa').value = p.get('ldfa'); changed = true; }
             if (p.has('mpta')) { document.getElementById('input-mpta').value = p.get('mpta'); changed = true; }
             if (p.has('mhka')) { document.getElementById('input-mhka').value = p.get('mhka'); changed = true; }
-            if (p.has('sex')) { selectSex(p.get('sex').toUpperCase() === 'F' ? 'F' : 'M'); changed = true; }
+            if (p.has('sex')) {
+                var isF = p.get('sex').toUpperCase() === 'F';
+                document.getElementById('sexo-toggle').checked = isF;
+                selectedSex = isF ? 'F' : 'M';
+                changed = true;
+            }
             if (changed) calculateAndUpdate();
         })();
 
