@@ -36,11 +36,15 @@ Esta clasificacion permite **individualizar el objetivo de alineacion** en la ar
 
 - **Calculo automatico** de aHKA y JLO a partir de LDFA y MPTA
 - **Clasificacion en 9 fenotipos CPAK** con descripcion clinica
+- **Clasificacion de normalidad de Hirschmann (2024)** sobre angulos constitucionales
 - **Matriz visual 3x3** con el fenotipo del paciente resaltado y representacion SVG de piernas
-- **Analisis de desgaste articular**: calcula JLCA a partir del mHKA, con indicadores visuales de severidad
+- **Indicador de desgaste articular** con D3.js: calcula JLCA a partir del mHKA, con gradiente de severidad
 - **Barras de prevalencia**: porcentaje de cada fenotipo en poblacion sana vs artrosica
+- **Panel de evidencia clinica** con referencias y recomendaciones
 - **Informacion clinica detallada**: estrategia quirurgica, diferencias por sexo, riesgo
 - **Formulas matematicas** visibles para verificacion
+- **Modo oscuro** con sky toggle CSS puro y deteccion automatica
+- **Accesibilidad**: skip link, focus-visible, reduced-motion, aria-labels
 - **Responsive**: adaptado para uso en escritorio, tablet y movil
 
 ---
@@ -89,9 +93,11 @@ CPAK/
 
 ## Tecnologia
 
-- **HTML5 + CSS3 + JavaScript vanilla** en archivo unico
-- Tipografias: [Inter](https://fonts.google.com/specimen/Inter) y [Lora](https://fonts.google.com/specimen/Lora) (Google Fonts)
+- **HTML5 + CSS3 + JavaScript vanilla** en archivo unico (Sistema B "Radiologia Glass")
+- Tipografias: Source Serif 4 + Source Sans 3 + Source Code Pro (Google Fonts)
+- **D3.js v7** para el indicador de desgaste articular (cargado por CDN con fallback)
 - Visualizaciones SVG generadas dinamicamente
+- Glassmorphism con `backdrop-filter` y mesh gradient animado de fondo
 - Sin frameworks, sin build tools, sin backend
 - Compatible con Chrome, Firefox, Safari, Edge
 
@@ -101,6 +107,7 @@ CPAK/
 
 - MacDessi SJ et al. *Coronal Plane Alignment of the Knee (CPAK) classification*. Bone Joint J. 2021.
 - Hirschmann MT et al. *Functional knee phenotypes*. Knee Surg Sports Traumatol Arthrosc. 2019.
+- Hirschmann MT et al. *Phenotype-specific normality of the constitutional knee alignment*. KSSTA 2024.
 
 ---
 
